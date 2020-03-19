@@ -1,0 +1,15 @@
+.DS_Store
+
+*.xcodeproj/xcuserdata/*
+*.xcodeproj/*.xcworkspace/*
+
+*.xcworkspace/xcuserdata/*
+*.xcworkspace
+
+Carthage/*
+
+Vendor/dr_libs-master/old/*
+Vendor/dr_libs-master/tests/*
+Vendor/dr_libs-master/wip/*
+Vendor/dr_libs-master/.gitignore
+Vendor/dr_libs-master/.gitmodules
