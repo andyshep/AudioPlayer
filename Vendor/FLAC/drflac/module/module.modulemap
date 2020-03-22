@@ -1,0 +1,5 @@
+module DrFLAC [system][extern_c] {
+  header "../shim.h"
+  link "drflac"
+  export *
+}

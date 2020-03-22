@@ -8,34 +8,39 @@
 
 import Cocoa
 
-class PlaylistViewController: NSViewController {
+final class PlaylistViewController: NSViewController {
+    
+    // MARK: IBOutlets
     
     @IBOutlet private weak var tableView: NSTableView!
     
-    @objc private var audioFiles: [AudioFile] = []
+    // MARK: Private (properties)
     
-    lazy var playlistArrayController: NSArrayController = {
-        let controller = NSArrayController()
-        controller.bind(.contentArray, to: self, withKeyPath: "audioFiles")
-        
-        return controller
-    }()
+    private let viewModel: PlaylistViewModel
+    
+    // MARK: Lifecycle
+    
+    init?(coder: NSCoder, viewModel: PlaylistViewModel) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("\(#function) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.bind(.content, to: playlistArrayController, withKeyPath: "arrangedObjects")
-        tableView.bind(.selectionIndexes, to: playlistArrayController, withKeyPath: "selectionIndexes")
+        tableView.bind(.content, to: viewModel.arrayController, withKeyPath: "arrangedObjects")
+        tableView.bind(.selectionIndexes, to: viewModel.arrayController, withKeyPath: "selectionIndexes")
     }
 
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
             guard let urls = representedObject as? [URL] else { return }
-            
-            willChangeValue(for: \.audioFiles)
-            audioFiles = urls.map { AudioFile(path: $0) }
-            didChangeValue(for: \.audioFiles)
+            viewModel.updatePlaylist(with: urls)
         }
     }
 }

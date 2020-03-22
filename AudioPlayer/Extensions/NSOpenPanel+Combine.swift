@@ -10,10 +10,26 @@ import Cocoa
 import Combine
 
 extension NSOpenPanel {
-    func showAndCompletion() -> Future<NSApplication.ModalResponse, Never> {
-        return Future<NSApplication.ModalResponse, Never> { [unowned self] promise in
-            self.begin { (response) in
-                promise(.success(response))
+//    func showAndCompletion(_ window: NSWindow) -> Future<NSApplication.ModalResponse, Never> {
+//        return Future<NSApplication.ModalResponse, Never> { [unowned self] promise in
+//            self.beginSheetModal(for: window) { (response) in
+//                promise(.success(response))
+//            }
+//        }
+//    }
+    
+    static func show(_ window: NSWindow, allowedFileTypes: [String]? = nil) -> Future<[URL], Never> {
+        return Future<[URL], Never> { promise in
+            
+            let panel = NSOpenPanel()
+            panel.canChooseFiles = true
+            panel.allowsMultipleSelection = true
+            panel.canChooseDirectories = false
+            panel.canCreateDirectories = false
+            panel.allowedFileTypes = allowedFileTypes
+            
+            panel.beginSheetModal(for: window) { (response) in
+                promise(.success(panel.urls))
             }
         }
     }

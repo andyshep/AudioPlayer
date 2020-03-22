@@ -9,47 +9,64 @@
 import Cocoa
 import Combine
 
-class WindowController: NSWindowController {
+final class WindowController: NSWindowController {
+    
+    // MARK: IBOutlets
     
     @IBOutlet private weak var addButton: NSButton!
+    @IBOutlet private weak var playButton: NSButton!
+    @IBOutlet private weak var stopButton: NSButton!
     
-    private lazy var openPanel: NSOpenPanel = {
-        let openPanel = NSOpenPanel()
-        openPanel.canChooseFiles = true
-        openPanel.allowsMultipleSelection = true
-        openPanel.canChooseDirectories = false
-        openPanel.canCreateDirectories = false
-        openPanel.allowedFileTypes = ["mp3", "wav", "aac", "flac"]
-        
-        return openPanel
-    }()
+    // MARK: Private (properties)
     
-    lazy private var playlistViewController: PlaylistViewController = {
-        guard let viewController = contentViewController as? PlaylistViewController else { fatalError() }
-        return viewController
-    }()
+//    private lazy var openPanel: NSOpenPanel = {
+//        let openPanel = NSOpenPanel()
+//        openPanel.canChooseFiles = true
+//        openPanel.allowsMultipleSelection = true
+//        openPanel.canChooseDirectories = false
+//        openPanel.canCreateDirectories = false
+//        openPanel.allowedFileTypes = ["mp3", "wav", "aac", "flac"]
+//
+//        return openPanel
+//    }()
     
     private var cancellables: [AnyCancellable] = []
+    private let playbackController = PlaybackController()
+    
+    // MARK: - Lifecycle
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        guard let window = window else { return }
     
-        window?.titleVisibility = .hidden
+        window.titleVisibility = .hidden
+        window.center()
+        
+        let (viewController, playlistViewModel) = Factory.makePlaylist(controller: playbackController)
+        handle(viewModel: playlistViewModel)
+        
+        window.contentViewController = viewController
         
         addButton.publisher
-            .flatMap { [unowned self] _ in
-                return self.openPanel
-                    .showAndCompletion()
+            .flatMapLatest { _ in
+                NSOpenPanel
+                    .show(window, allowedFileTypes: ["mp3", "wav", "aac", "flac"])
                     .eraseToAnyPublisher()
             }
-            .compactMap { [weak self] (response) -> [URL]? in
-                guard case .OK = response else { return nil }
-                guard let urls = self?.openPanel.urls else { return nil }
-                return urls
-            }
             .sink { urls in
-                self.playlistViewController.representedObject = urls
+                self.window?.contentViewController?.representedObject = urls
             }
             .store(in: &cancellables)
+    }
+    
+    // MARK: - Private
+    
+    private func handle(viewModel: PlaylistViewModel) {
+        playButton.publisher
+            .receive(subscriber: viewModel.playEvent)
+        
+        stopButton.publisher
+            .receive(subscriber: viewModel.stopEvent)
     }
 }

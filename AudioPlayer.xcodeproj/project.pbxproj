@@ -15,6 +15,20 @@
 		F70114012422EF47002AE1EC /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114002422EF47002AE1EC /* AudioFile.swift */; };
 		F70114042422F0BE002AE1EC /* NSButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114032422F0BE002AE1EC /* NSButton+Combine.swift */; };
 		F701140624238EE8002AE1EC /* NSOpenPanel+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */; };
+		F701140C24244087002AE1EC /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140A24244087002AE1EC /* AsyncOperation.swift */; };
+		F701140F24244090002AE1EC /* AudioPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140D24244090002AE1EC /* AudioPlayback.swift */; };
+		F701141024244090002AE1EC /* AudioTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140E24244090002AE1EC /* AudioTypes.swift */; };
+		F701142824244234002AE1EC /* PlaybackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701142724244234002AE1EC /* PlaybackController.swift */; };
+		F701142A242442BF002AE1EC /* NSArrayController+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */; };
+		F701142C24244319002AE1EC /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701142B24244319002AE1EC /* Publisher+Extensions.swift */; };
+		F701142F2426476B002AE1EC /* PlaylistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701142E2426476B002AE1EC /* PlaylistViewModel.swift */; };
+		F701143124267802002AE1EC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701143024267802002AE1EC /* Factory.swift */; };
+		F70114332426A6D3002AE1EC /* NSStoryboard+Injecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */; };
+		F70114F72426EA86002AE1EC /* Swime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114922426EA85002AE1EC /* Swime.swift */; };
+		F70114F82426EA86002AE1EC /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114932426EA85002AE1EC /* MimeType.swift */; };
+		F7C13FEB2426ED470037B743 /* PlaybackOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FEA2426ED470037B743 /* PlaybackOperation.swift */; };
+		F7C13FEF2426EF8F0037B743 /* MP3Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FED2426EF8F0037B743 /* MP3Operation.swift */; };
+		F7C13FF1242758C00037B743 /* shim.c in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FF0242758C00037B743 /* shim.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +43,24 @@
 		F70114002422EF47002AE1EC /* AudioFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFile.swift; sourceTree = "<group>"; };
 		F70114032422F0BE002AE1EC /* NSButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton+Combine.swift"; sourceTree = "<group>"; };
 		F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+Combine.swift"; sourceTree = "<group>"; };
+		F701140A24244087002AE1EC /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		F701140D24244090002AE1EC /* AudioPlayback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayback.swift; sourceTree = "<group>"; };
+		F701140E24244090002AE1EC /* AudioTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioTypes.swift; sourceTree = "<group>"; };
+		F701142724244234002AE1EC /* PlaybackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackController.swift; sourceTree = "<group>"; };
+		F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArrayController+Combine.swift"; sourceTree = "<group>"; };
+		F701142B24244319002AE1EC /* Publisher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extensions.swift"; sourceTree = "<group>"; };
+		F701142E2426476B002AE1EC /* PlaylistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewModel.swift; sourceTree = "<group>"; };
+		F701143024267802002AE1EC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard+Injecting.swift"; sourceTree = "<group>"; };
+		F70114392426EA85002AE1EC /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		F701143C2426EA85002AE1EC /* dr_flac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dr_flac.h; sourceTree = "<group>"; };
+		F701143D2426EA85002AE1EC /* shim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shim.h; sourceTree = "<group>"; };
+		F70114922426EA85002AE1EC /* Swime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swime.swift; sourceTree = "<group>"; };
+		F70114932426EA85002AE1EC /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		F7C13FEA2426ED470037B743 /* PlaybackOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackOperation.swift; sourceTree = "<group>"; };
+		F7C13FED2426EF8F0037B743 /* MP3Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MP3Operation.swift; sourceTree = "<group>"; };
+		F7C13FF0242758C00037B743 /* shim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = shim.c; sourceTree = "<group>"; };
+		F7C13FF3242759270037B743 /* AudioPlayer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				F70112ED24219B52002AE1EC /* AudioPlayer */,
+				F70114342426EA85002AE1EC /* Vendor */,
 				F70112EC24219B52002AE1EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,8 +97,13 @@
 				F70112EE24219B52002AE1EC /* AppDelegate.swift */,
 				F701130024219E97002AE1EC /* WindowController.swift */,
 				F70112F024219B52002AE1EC /* PlaylistViewController.swift */,
-				F70114002422EF47002AE1EC /* AudioFile.swift */,
+				F701142D24264750002AE1EC /* ViewModels */,
+				F701142624244219002AE1EC /* Controllers */,
+				F701140824244062002AE1EC /* Audio */,
+				F701140724243FEA002AE1EC /* Operations */,
 				F70114022422F0AC002AE1EC /* Extensions */,
+				F701143024267802002AE1EC /* Factory.swift */,
+				F7C13FF3242759270037B743 /* AudioPlayer-Bridging-Header.h */,
 				F70112F224219B53002AE1EC /* Assets.xcassets */,
 				F70112F424219B53002AE1EC /* Main.storyboard */,
 				F70112F724219B53002AE1EC /* Info.plist */,
@@ -79,8 +117,100 @@
 			children = (
 				F70114032422F0BE002AE1EC /* NSButton+Combine.swift */,
 				F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */,
+				F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */,
+				F701142B24244319002AE1EC /* Publisher+Extensions.swift */,
+				F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F701140724243FEA002AE1EC /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				F7C13FED2426EF8F0037B743 /* MP3Operation.swift */,
+				F701140A24244087002AE1EC /* AsyncOperation.swift */,
+				F7C13FEA2426ED470037B743 /* PlaybackOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		F701140824244062002AE1EC /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				F701140D24244090002AE1EC /* AudioPlayback.swift */,
+				F701140E24244090002AE1EC /* AudioTypes.swift */,
+				F70114002422EF47002AE1EC /* AudioFile.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		F701142624244219002AE1EC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F701142724244234002AE1EC /* PlaybackController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F701142D24264750002AE1EC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F701142E2426476B002AE1EC /* PlaylistViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F70114342426EA85002AE1EC /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				F70114352426EA85002AE1EC /* FLAC */,
+				F701143F2426EA85002AE1EC /* Swime */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		F70114352426EA85002AE1EC /* FLAC */ = {
+			isa = PBXGroup;
+			children = (
+				F70114372426EA85002AE1EC /* drflac */,
+			);
+			path = FLAC;
+			sourceTree = "<group>";
+		};
+		F70114372426EA85002AE1EC /* drflac */ = {
+			isa = PBXGroup;
+			children = (
+				F7C13FF0242758C00037B743 /* shim.c */,
+				F70114382426EA85002AE1EC /* module */,
+				F701143C2426EA85002AE1EC /* dr_flac.h */,
+				F701143D2426EA85002AE1EC /* shim.h */,
+			);
+			path = drflac;
+			sourceTree = "<group>";
+		};
+		F70114382426EA85002AE1EC /* module */ = {
+			isa = PBXGroup;
+			children = (
+				F70114392426EA85002AE1EC /* module.modulemap */,
+			);
+			path = module;
+			sourceTree = "<group>";
+		};
+		F701143F2426EA85002AE1EC /* Swime */ = {
+			isa = PBXGroup;
+			children = (
+				F70114912426EA85002AE1EC /* Sources */,
+			);
+			path = Swime;
+			sourceTree = "<group>";
+		};
+		F70114912426EA85002AE1EC /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F70114922426EA85002AE1EC /* Swime.swift */,
+				F70114932426EA85002AE1EC /* MimeType.swift */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,6 +245,7 @@
 				TargetAttributes = {
 					F70112EA24219B52002AE1EC = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -153,12 +284,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7C13FF1242758C00037B743 /* shim.c in Sources */,
 				F70114012422EF47002AE1EC /* AudioFile.swift in Sources */,
+				F70114F72426EA86002AE1EC /* Swime.swift in Sources */,
 				F70112F124219B52002AE1EC /* PlaylistViewController.swift in Sources */,
+				F701142F2426476B002AE1EC /* PlaylistViewModel.swift in Sources */,
+				F70114F82426EA86002AE1EC /* MimeType.swift in Sources */,
+				F7C13FEB2426ED470037B743 /* PlaybackOperation.swift in Sources */,
 				F70114042422F0BE002AE1EC /* NSButton+Combine.swift in Sources */,
 				F701130124219E97002AE1EC /* WindowController.swift in Sources */,
 				F70112EF24219B52002AE1EC /* AppDelegate.swift in Sources */,
+				F701141024244090002AE1EC /* AudioTypes.swift in Sources */,
+				F701142A242442BF002AE1EC /* NSArrayController+Combine.swift in Sources */,
+				F7C13FEF2426EF8F0037B743 /* MP3Operation.swift in Sources */,
+				F70114332426A6D3002AE1EC /* NSStoryboard+Injecting.swift in Sources */,
+				F701140C24244087002AE1EC /* AsyncOperation.swift in Sources */,
+				F701142824244234002AE1EC /* PlaybackController.swift in Sources */,
+				F701140F24244090002AE1EC /* AudioPlayback.swift in Sources */,
 				F701140624238EE8002AE1EC /* NSOpenPanel+Combine.swift in Sources */,
+				F701143124267802002AE1EC /* Factory.swift in Sources */,
+				F701142C24244319002AE1EC /* Publisher+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,12 +371,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = "${SRCROOT}/Vendor/FLAC/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/Vendor/FLAC/**";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -280,11 +427,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = "${SRCROOT}/Vendor/FLAC/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/Vendor/FLAC/**";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
@@ -293,6 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer/AudioPlayer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -301,8 +451,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.AudioPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AudioPlayer/AudioPlayer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -311,6 +464,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer/AudioPlayer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -319,8 +473,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.AudioPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AudioPlayer/AudioPlayer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
