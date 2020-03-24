@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Insert code here to initialize your application

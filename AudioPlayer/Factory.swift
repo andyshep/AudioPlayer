@@ -22,4 +22,18 @@ struct Factory {
         }
         return (viewController, viewModel)
     }
+    
+//    static func makeToolbar(controller: PlaybackController) -> (NSToolbar, ToolbarViewModel) {
+//        let viewModel = ToolbarViewModel(controller: controller)
+////        let toolbarController = ToolbarController()
+//        
+////        guard let nib = NSNib(nibNamed: "PlaybackControls", bundle: nil) else { fatalError() }
+////
+////        var objects: NSArray? = nil
+////        nib.instantiate(withOwner: toolbarController, topLevelObjects: &objects)
+//        
+//        guard let toolbar = objects?.first(where: { $0 is NSToolbar }) as? NSToolbar else { fatalError() }
+//        
+//        return (toolbar, viewModel)
+//    }
 }

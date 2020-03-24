@@ -51,8 +51,7 @@ final class PlaylistViewModel: NSObject {
     private func bindToEvents() {
         playEventSubject
             .eraseToAnyPublisher()
-            .print("play")
-            .map {
+            .map { [unowned self] in
                 let index = self.arrayController.selectionIndex
                 let file = self.audioFiles[index]
                 return file.path
@@ -64,7 +63,6 @@ final class PlaylistViewModel: NSObject {
         
         stopEventSubject
             .eraseToAnyPublisher()
-            .print("stop")
             .sink { [weak self] _ in
                 self?.controller.stop()
             }

@@ -8,17 +8,22 @@
 
 import Foundation
 import Combine
+import os.log
 
 final class PlaybackController {
     
     private let operationQueue = OperationQueue()
     private var activeOperation: PlaybackOperation?
     
-    init() {
-        
-    }
-    
     func play(url: URL) {
+        guard let handle = try? FileHandle(forReadingFrom: url) else { return }
+        let preamble = handle.readData(ofLength: 64)
+        guard let mime = Swime.mimeType(data: preamble) else { return }
+        guard mime.isAudio else {
+            os_log("Unrecognized audio file: %{PUBLIC}@", log: .default, type: .error, url.lastPathComponent)
+            return
+        }
+        
         let operation = MP3Operation(url: url)
         operationQueue.addOperation(operation)
         
@@ -27,5 +32,16 @@ final class PlaybackController {
     
     func stop() {
         operationQueue.cancelAllOperations()
+    }
+}
+
+private extension MimeType {
+    var isAudio: Bool {
+        switch self.type {
+        case .mp3, .flac, .wav:
+            return true
+        default:
+            return false
+        }
     }
 }

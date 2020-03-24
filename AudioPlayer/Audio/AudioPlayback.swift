@@ -124,6 +124,10 @@ public func CalculateBufferSize(audioFile: AudioFileID,
     return (size: bufferSize, numberOfPackets: numberOfPackets)
 }
 
+/// `CopyEncoderCookieToQueue`
+/// - Parameters:
+///   - audioFile: The audio file
+///   - audioQueue: The audio queue
 public func CopyEncoderCookieToQueue(audioFile: AudioFileID, audioQueue: AudioQueueRef) {
     var propertySize: UInt32 = 0
     let result = AudioFileGetPropertyInfo(
@@ -162,6 +166,10 @@ public func CopyEncoderCookieToQueue(audioFile: AudioFileID, audioQueue: AudioQu
     }
 }
 
+/// Helper for checking error code from an `OSStatus`
+/// - Parameters:
+///   - error: status code to check
+///   - operation: message to log on failure
 public func CheckError(_ error: OSStatus, onFailure operation: String) {
     guard (error != noErr) else { return }
     if (error < 0) {

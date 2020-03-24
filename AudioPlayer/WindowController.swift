@@ -14,21 +14,15 @@ final class WindowController: NSWindowController {
     // MARK: IBOutlets
     
     @IBOutlet private weak var addButton: NSButton!
-    @IBOutlet private weak var playButton: NSButton!
     @IBOutlet private weak var stopButton: NSButton!
+    @IBOutlet private weak var playbackControls: NSSegmentedControl!
+    
+    @IBOutlet private weak var progressLabel: NSTextField!
+    @IBOutlet private weak var progressBar: NSProgressIndicator!
+    
+    @IBOutlet private weak var toolbarController: ToolbarController!
     
     // MARK: Private (properties)
-    
-//    private lazy var openPanel: NSOpenPanel = {
-//        let openPanel = NSOpenPanel()
-//        openPanel.canChooseFiles = true
-//        openPanel.allowsMultipleSelection = true
-//        openPanel.canChooseDirectories = false
-//        openPanel.canCreateDirectories = false
-//        openPanel.allowedFileTypes = ["mp3", "wav", "aac", "flac"]
-//
-//        return openPanel
-//    }()
     
     private var cancellables: [AnyCancellable] = []
     private let playbackController = PlaybackController()
@@ -46,27 +40,42 @@ final class WindowController: NSWindowController {
         let (viewController, playlistViewModel) = Factory.makePlaylist(controller: playbackController)
         handle(viewModel: playlistViewModel)
         
-        window.contentViewController = viewController
+//        let (toolbar, toolbarViewModel) = Factory.makeToolbar(controller: playbackController)
         
-        addButton.publisher
-            .flatMapLatest { _ in
-                NSOpenPanel
-                    .show(window, allowedFileTypes: ["mp3", "wav", "aac", "flac"])
-                    .eraseToAnyPublisher()
-            }
-            .sink { urls in
-                self.window?.contentViewController?.representedObject = urls
-            }
-            .store(in: &cancellables)
+        window.contentViewController = viewController
+//        window.toolbar = toolbar
+        
+//        addButton.publisher
+//            .flatMapLatest { _ in
+//                NSOpenPanel
+//                    .show(window, allowedFileTypes: ["mp3", "wav", "aac", "flac"])
+//                    .eraseToAnyPublisher()
+//            }
+//            .sink { urls in
+//                self.window?.contentViewController?.representedObject = urls
+//            }
+//            .store(in: &cancellables)
     }
     
     // MARK: - Private
     
     private func handle(viewModel: PlaylistViewModel) {
-        playButton.publisher
-            .receive(subscriber: viewModel.playEvent)
-        
-        stopButton.publisher
-            .receive(subscriber: viewModel.stopEvent)
+//        stopButton.publisher
+//            .receive(subscriber: viewModel.stopEvent)
+//        
+//        playbackControls
+//            .playEvent
+//            .receive(subscriber: viewModel.playEvent)
+//        
+//        progressLabel.stringValue = "Testing"
+    }
+}
+
+private extension NSSegmentedControl {
+    var playEvent: AnyPublisher<Void, Never> {
+        return publisher
+            .filter { $0 == 1 }
+            .map { _ in () }
+            .eraseToAnyPublisher()
     }
 }

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -705,46 +706,22 @@
                                     </button>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="NGf-Bi-SXo"/>
+                                <toolbarItem implicitItemIdentifier="8C163B0C-EB08-4F51-A136-6F785C649CB7" label="Playback" paletteLabel="Playback" sizingBehavior="auto" id="DKs-F7-qGt">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="LGw-jU-Ltc">
+                                        <rect key="frame" x="0.0" y="14" width="104" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="momentary" id="xXl-1C-vqJ">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment image="NSTouchBarRewindTemplate" width="32"/>
+                                                <segment image="NSTouchBarPlayTemplate" width="32" tag="1"/>
+                                                <segment image="NSTouchBarFastForwardTemplate" width="32"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="OTY-5T-i7H"/>
-                                <toolbarItem implicitItemIdentifier="885DAE16-2839-4B45-ACAD-B51CA72EB9AE" label="Play/Pause" paletteLabel="Play/Pause" image="NSTouchBarPlayPauseTemplate" id="9pZ-MN-K5k">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="39" height="28"/>
-                                    <size key="maxSize" width="39" height="28"/>
-                                    <button key="view" verticalHuggingPriority="750" id="w5Q-vY-fOO">
-                                        <rect key="frame" x="13" y="14" width="39" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarPlayPauseTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ify-Re-oh4">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="BBD6F8AB-8C1C-41A2-A391-4B8C64879C79" label="Forward" paletteLabel="Forward" image="NSTouchBarSkipToEndTemplate" id="RPG-OV-gEh">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="39" height="28"/>
-                                    <size key="maxSize" width="39" height="28"/>
-                                    <button key="view" verticalHuggingPriority="750" id="3BV-zd-l3k">
-                                        <rect key="frame" x="6" y="14" width="39" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarSkipToEndTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pFN-R7-gtg">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="B00799E2-D4B1-4AFC-A73E-41D5224AD39A" label="Reverse" paletteLabel="Reverse" image="NSTouchBarSkipToStartTemplate" id="mYk-In-oVZ">
-                                    <nil key="toolTip"/>
-                                    <size key="minSize" width="39" height="28"/>
-                                    <size key="maxSize" width="39" height="28"/>
-                                    <button key="view" verticalHuggingPriority="750" id="WYt-WT-ftn">
-                                        <rect key="frame" x="5" y="14" width="39" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarSkipToStartTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Ps-7E-7Wd">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="B8D643AC-A622-4C82-ADE1-3F0E37F009B9" label="Stop" paletteLabel="Stop" image="NSTouchBarRecordStopTemplate" id="dPn-ZE-5oz">
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="39" height="28"/>
@@ -752,28 +729,54 @@
                                     <button key="view" verticalHuggingPriority="750" id="F93-B5-bgC">
                                         <rect key="frame" x="0.0" y="14" width="39" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarRecordStopTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8gY-VX-rfy">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarRecordStopTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" id="8gY-VX-rfy">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="label"/>
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="B9BB6FE0-E911-4346-B286-ED1F3D7041BE" label="Custom View" paletteLabel="Custom View" tag="-1" id="L4V-4h-pgX">
+                                <toolbarItem implicitItemIdentifier="C8071423-F471-49DB-8E5D-4DB2AF4BABB0" label="Custom View" paletteLabel="Custom View" tag="-1" id="alY-ko-nTa">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="100" height="20"/>
-                                    <size key="maxSize" width="500" height="20"/>
-                                    <progressIndicator key="view" wantsLayer="YES" maxValue="100" style="bar" id="7dG-6j-87s">
-                                        <rect key="frame" x="0.0" y="14" width="100" height="20"/>
+                                    <size key="minSize" width="177" height="22"/>
+                                    <size key="maxSize" width="500" height="24"/>
+                                    <box key="view" boxType="custom" cornerRadius="4" title="Box" titlePosition="noTitle" id="CEA-ba-fdc">
+                                        <rect key="frame" x="0.0" y="14" width="177" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    </progressIndicator>
+                                        <view key="contentView" id="tUn-NQ-C5e">
+                                            <rect key="frame" x="1" y="1" width="175" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Y4m-sR-pJe">
+                                                    <rect key="frame" x="61" y="5" width="98" height="12"/>
+                                                </progressIndicator>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qul-cT-yhP">
+                                                    <rect key="frame" x="14" y="4" width="33" height="14"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Hh8-09-w69">
+                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Y4m-sR-pJe" firstAttribute="centerY" secondItem="tUn-NQ-C5e" secondAttribute="centerY" id="7Qb-Jk-SyJ"/>
+                                                <constraint firstItem="qul-cT-yhP" firstAttribute="centerY" secondItem="tUn-NQ-C5e" secondAttribute="centerY" id="Icg-SZ-kKd"/>
+                                                <constraint firstAttribute="trailing" secondItem="Y4m-sR-pJe" secondAttribute="trailing" constant="16" id="VbP-5l-iHp"/>
+                                                <constraint firstItem="qul-cT-yhP" firstAttribute="leading" secondItem="tUn-NQ-C5e" secondAttribute="leading" constant="16" id="quN-rT-YlI"/>
+                                                <constraint firstItem="Y4m-sR-pJe" firstAttribute="leading" secondItem="qul-cT-yhP" secondAttribute="trailing" constant="16" id="x4S-Zq-8Wm"/>
+                                            </constraints>
+                                        </view>
+                                        <color key="borderColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="fillColor" name="alternatingContentBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </box>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="9pZ-MN-K5k"/>
-                                <toolbarItem reference="mYk-In-oVZ"/>
-                                <toolbarItem reference="RPG-OV-gEh"/>
+                                <toolbarItem reference="DKs-F7-qGt"/>
                                 <toolbarItem reference="dPn-ZE-5oz"/>
-                                <toolbarItem reference="L4V-4h-pgX"/>
+                                <toolbarItem reference="OTY-5T-i7H"/>
+                                <toolbarItem reference="alY-ko-nTa"/>
+                                <toolbarItem reference="OTY-5T-i7H"/>
                                 <toolbarItem reference="6GN-bF-dJ4"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -782,12 +785,19 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="addButton" destination="LJ7-FX-0bf" id="JS2-11-BuQ"/>
-                        <outlet property="playButton" destination="w5Q-vY-fOO" id="aQX-WD-UT4"/>
-                        <outlet property="stopButton" destination="F93-B5-bgC" id="89w-oU-IGk"/>
+                        <outlet property="playbackControls" destination="LGw-jU-Ltc" id="VIb-kX-ZfD"/>
+                        <outlet property="progressBar" destination="Y4m-sR-pJe" id="tej-zD-UUv"/>
+                        <outlet property="progressLabel" destination="qul-cT-yhP" id="cow-dB-iea"/>
+                        <outlet property="toolbarController" destination="B9k-R9-cuU" id="u2Y-82-2fP"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="B9k-R9-cuU" customClass="ToolbarController" customModule="AudioPlayer" customModuleProvider="target">
+                    <connections>
+                        <outlet property="addButton" destination="LJ7-FX-0bf" id="4Bt-GO-89F"/>
+                        <outlet property="stopButton" destination="F93-B5-bgC" id="MdG-5A-WzL"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
@@ -800,7 +810,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xUj-LX-mrR">
-                                <rect key="frame" x="0.0" y="-1" width="480" height="27"/>
+                                <rect key="frame" x="-1" y="-3" width="482" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="Mm2-Ci-hKE"/>
                                 </constraints>
@@ -810,13 +820,13 @@
                                 </buttonCell>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8Y-08-TeT">
-                                <rect key="frame" x="0.0" y="24" width="480" height="246"/>
+                                <rect key="frame" x="-1" y="22" width="482" height="249"/>
                                 <clipView key="contentView" id="OCe-ow-OEx">
-                                    <rect key="frame" x="1" y="0.0" width="478" height="245"/>
+                                    <rect key="frame" x="1" y="0.0" width="480" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="gpu-xK-1co" viewBased="YES" id="kpV-Im-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="478" height="220"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="223"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -889,7 +899,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="97" minWidth="10" maxWidth="100" id="6NY-tF-rJQ">
+                                                <tableColumn width="99" minWidth="10" maxWidth="100" id="6NY-tF-rJQ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -902,11 +912,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Cmj-Tb-gOA">
-                                                            <rect key="frame" x="379" y="1" width="97" height="17"/>
+                                                            <rect key="frame" x="379" y="1" width="99" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDr-Cv-466">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="97" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="99" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="kkT-2Y-Mme">
                                                                         <font key="font" metaFont="system"/>
@@ -934,19 +944,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="gpu-xK-1co">
-                                    <rect key="frame" x="0.0" y="0.0" width="478" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="G8Y-08-TeT" secondAttribute="trailing" id="APm-f5-7d3"/>
+                            <constraint firstAttribute="trailing" secondItem="G8Y-08-TeT" secondAttribute="trailing" constant="-1" id="APm-f5-7d3"/>
                             <constraint firstItem="xUj-LX-mrR" firstAttribute="top" secondItem="G8Y-08-TeT" secondAttribute="bottom" constant="-1" id="OIB-pL-biy"/>
-                            <constraint firstItem="xUj-LX-mrR" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Rif-3S-nEM"/>
-                            <constraint firstAttribute="bottom" secondItem="xUj-LX-mrR" secondAttribute="bottom" id="Y8x-gw-EYJ"/>
-                            <constraint firstItem="G8Y-08-TeT" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="c8j-vv-VbY"/>
-                            <constraint firstAttribute="trailing" secondItem="xUj-LX-mrR" secondAttribute="trailing" id="hPI-te-HRR"/>
-                            <constraint firstItem="G8Y-08-TeT" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="j9S-Rp-zNn"/>
+                            <constraint firstItem="xUj-LX-mrR" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="-1" id="Rif-3S-nEM"/>
+                            <constraint firstAttribute="bottom" secondItem="xUj-LX-mrR" secondAttribute="bottom" constant="-2" id="Y8x-gw-EYJ"/>
+                            <constraint firstItem="G8Y-08-TeT" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="-1" id="c8j-vv-VbY"/>
+                            <constraint firstAttribute="trailing" secondItem="xUj-LX-mrR" secondAttribute="trailing" constant="-1" id="hPI-te-HRR"/>
+                            <constraint firstItem="G8Y-08-TeT" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="-1" id="j9S-Rp-zNn"/>
                         </constraints>
                     </view>
                     <connections>
@@ -960,9 +970,9 @@
     </scenes>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
-        <image name="NSTouchBarPlayPauseTemplate" width="23" height="30"/>
+        <image name="NSTouchBarFastForwardTemplate" width="22" height="30"/>
+        <image name="NSTouchBarPlayTemplate" width="14" height="30"/>
         <image name="NSTouchBarRecordStopTemplate" width="12" height="30"/>
-        <image name="NSTouchBarSkipToEndTemplate" width="12" height="30"/>
-        <image name="NSTouchBarSkipToStartTemplate" width="12" height="30"/>
+        <image name="NSTouchBarRewindTemplate" width="22" height="30"/>
     </resources>
 </document>
