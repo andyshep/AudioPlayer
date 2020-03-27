@@ -12,8 +12,14 @@ final class ToolbarController: NSObject {
         
     @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
+    @IBOutlet weak var playbackControls: NSSegmentedControl!
+//    @IBOutlet weak var playbackControls: NSSegmentedControl!
     
     override class func awakeFromNib() {
         super.awakeFromNib()
+        
+        let bar = NSProgressIndicator()
+        bar.style = .bar
+        bar.controlSize = .mini
     }
 }

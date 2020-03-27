@@ -12,6 +12,8 @@ import os.log
 
 final class MP3Operation: AsyncOperation {
     
+    private var _duration: Double = 0.0
+    
     private enum Constants {
         
         /// Number of audio queue buffers used for playback.
@@ -42,6 +44,14 @@ final class MP3Operation: AsyncOperation {
 }
 
 extension MP3Operation: PlaybackOperation {
+    @objc var position: Double {
+        return 0.0
+    }
+    
+    @objc var duration: Double {
+        return _duration
+    }
+    
     internal func startPlayback() {
         os_log("Starting playback of file: %{PUBLIC}@", log: .default, type: .info, url.lastPathComponent)
         
@@ -68,6 +78,22 @@ extension MP3Operation: PlaybackOperation {
             ),
             onFailure: "couldn't get file's data format"
         )
+        
+        var totalPacketCount: UInt64 = 0
+        propSize = UInt32(MemoryLayout.size(ofValue: totalPacketCount))
+        CheckError(
+            AudioFileGetProperty(
+                audioFile,
+                kAudioFilePropertyAudioDataPacketCount,
+                &propSize,
+                &totalPacketCount
+            ),
+            onFailure: "couldn't get total packet count"
+        )
+        
+        willChangeValue(for: \.duration)
+        _duration = Double(totalPacketCount)
+        didChangeValue(for: \.duration)
 
         CheckError(
             AudioQueueNewOutput(

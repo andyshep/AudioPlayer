@@ -26,12 +26,16 @@
 		F70114332426A6D3002AE1EC /* NSStoryboard+Injecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */; };
 		F70114F72426EA86002AE1EC /* Swime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114922426EA85002AE1EC /* Swime.swift */; };
 		F70114F82426EA86002AE1EC /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114932426EA85002AE1EC /* MimeType.swift */; };
+		F77C21F3242D6C6C00FC6DDC /* shim.c in Sources */ = {isa = PBXBuildFile; fileRef = F77C21EB242D6C6C00FC6DDC /* shim.c */; };
+		F77C21F4242D6C6C00FC6DDC /* flac.pc in Resources */ = {isa = PBXBuildFile; fileRef = F77C21EE242D6C6C00FC6DDC /* flac.pc */; };
+		F77C21F5242D6C6C00FC6DDC /* libFLAC.la in Resources */ = {isa = PBXBuildFile; fileRef = F77C21EF242D6C6C00FC6DDC /* libFLAC.la */; };
+		F77C21F6242D6C6C00FC6DDC /* libFLAC.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F77C21F0242D6C6C00FC6DDC /* libFLAC.8.dylib */; };
+		F77C21F7242D6C6C00FC6DDC /* libFLAC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F77C21F1242D6C6C00FC6DDC /* libFLAC.dylib */; };
 		F7B39DCC2427DB54000AE701 /* PlaybackControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */; };
 		F7B39DD22427DC44000AE701 /* ToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD12427DC44000AE701 /* ToolbarController.swift */; };
 		F7B39DD42427E0E4000AE701 /* ToolbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */; };
 		F7C13FEB2426ED470037B743 /* PlaybackOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FEA2426ED470037B743 /* PlaybackOperation.swift */; };
 		F7C13FEF2426EF8F0037B743 /* MP3Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FED2426EF8F0037B743 /* MP3Operation.swift */; };
-		F7C13FF1242758C00037B743 /* shim.c in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FF0242758C00037B743 /* shim.c */; };
 		F7C13FF5242776050037B743 /* NSSegmentedControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FF4242776050037B743 /* NSSegmentedControl+Combine.swift */; };
 		F7C13FF7242778680037B743 /* FLACOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FF6242778680037B743 /* FLACOperation.swift */; };
 /* End PBXBuildFile section */
@@ -57,17 +61,29 @@
 		F701142E2426476B002AE1EC /* PlaylistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewModel.swift; sourceTree = "<group>"; };
 		F701143024267802002AE1EC /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard+Injecting.swift"; sourceTree = "<group>"; };
-		F70114392426EA85002AE1EC /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		F701143C2426EA85002AE1EC /* dr_flac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dr_flac.h; sourceTree = "<group>"; };
-		F701143D2426EA85002AE1EC /* shim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shim.h; sourceTree = "<group>"; };
 		F70114922426EA85002AE1EC /* Swime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swime.swift; sourceTree = "<group>"; };
 		F70114932426EA85002AE1EC /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		F77C21DF242D6C6C00FC6DDC /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		F77C21E2242D6C6C00FC6DDC /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = export.h; sourceTree = "<group>"; };
+		F77C21E3242D6C6C00FC6DDC /* stream_encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream_encoder.h; sourceTree = "<group>"; };
+		F77C21E4242D6C6C00FC6DDC /* all.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = all.h; sourceTree = "<group>"; };
+		F77C21E5242D6C6C00FC6DDC /* ordinals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ordinals.h; sourceTree = "<group>"; };
+		F77C21E6242D6C6C00FC6DDC /* metadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metadata.h; sourceTree = "<group>"; };
+		F77C21E7242D6C6C00FC6DDC /* format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = format.h; sourceTree = "<group>"; };
+		F77C21E8242D6C6C00FC6DDC /* stream_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream_decoder.h; sourceTree = "<group>"; };
+		F77C21E9242D6C6C00FC6DDC /* assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assert.h; sourceTree = "<group>"; };
+		F77C21EA242D6C6C00FC6DDC /* callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = callback.h; sourceTree = "<group>"; };
+		F77C21EB242D6C6C00FC6DDC /* shim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = shim.c; sourceTree = "<group>"; };
+		F77C21EE242D6C6C00FC6DDC /* flac.pc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flac.pc; sourceTree = "<group>"; };
+		F77C21EF242D6C6C00FC6DDC /* libFLAC.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libFLAC.la; sourceTree = "<group>"; };
+		F77C21F0242D6C6C00FC6DDC /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libFLAC.8.dylib; sourceTree = "<group>"; };
+		F77C21F1242D6C6C00FC6DDC /* libFLAC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libFLAC.dylib; sourceTree = "<group>"; };
+		F77C21F2242D6C6C00FC6DDC /* shim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shim.h; sourceTree = "<group>"; };
 		F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaybackControls.xib; sourceTree = "<group>"; };
 		F7B39DD12427DC44000AE701 /* ToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarController.swift; sourceTree = "<group>"; };
 		F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewModel.swift; sourceTree = "<group>"; };
 		F7C13FEA2426ED470037B743 /* PlaybackOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackOperation.swift; sourceTree = "<group>"; };
 		F7C13FED2426EF8F0037B743 /* MP3Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MP3Operation.swift; sourceTree = "<group>"; };
-		F7C13FF0242758C00037B743 /* shim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = shim.c; sourceTree = "<group>"; };
 		F7C13FF3242759270037B743 /* AudioPlayer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		F7C13FF4242776050037B743 /* NSSegmentedControl+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSegmentedControl+Combine.swift"; sourceTree = "<group>"; };
 		F7C13FF6242778680037B743 /* FLACOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLACOperation.swift; sourceTree = "<group>"; };
@@ -78,6 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F77C21F7242D6C6C00FC6DDC /* libFLAC.dylib in Frameworks */,
+				F77C21F6242D6C6C00FC6DDC /* libFLAC.8.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,37 +196,10 @@
 		F70114342426EA85002AE1EC /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				F70114352426EA85002AE1EC /* FLAC */,
+				F77C21DC242D6C6C00FC6DDC /* FLAC */,
 				F701143F2426EA85002AE1EC /* Swime */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		F70114352426EA85002AE1EC /* FLAC */ = {
-			isa = PBXGroup;
-			children = (
-				F70114372426EA85002AE1EC /* drflac */,
-			);
-			path = FLAC;
-			sourceTree = "<group>";
-		};
-		F70114372426EA85002AE1EC /* drflac */ = {
-			isa = PBXGroup;
-			children = (
-				F7C13FF0242758C00037B743 /* shim.c */,
-				F70114382426EA85002AE1EC /* module */,
-				F701143C2426EA85002AE1EC /* dr_flac.h */,
-				F701143D2426EA85002AE1EC /* shim.h */,
-			);
-			path = drflac;
-			sourceTree = "<group>";
-		};
-		F70114382426EA85002AE1EC /* module */ = {
-			isa = PBXGroup;
-			children = (
-				F70114392426EA85002AE1EC /* module.modulemap */,
-			);
-			path = module;
 			sourceTree = "<group>";
 		};
 		F701143F2426EA85002AE1EC /* Swime */ = {
@@ -226,6 +217,77 @@
 				F70114932426EA85002AE1EC /* MimeType.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		F77C21DC242D6C6C00FC6DDC /* FLAC */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21DD242D6C6C00FC6DDC /* libflac */,
+			);
+			path = FLAC;
+			sourceTree = "<group>";
+		};
+		F77C21DD242D6C6C00FC6DDC /* libflac */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21DE242D6C6C00FC6DDC /* module */,
+				F77C21E0242D6C6C00FC6DDC /* include */,
+				F77C21EB242D6C6C00FC6DDC /* shim.c */,
+				F77C21EC242D6C6C00FC6DDC /* lib */,
+				F77C21F2242D6C6C00FC6DDC /* shim.h */,
+			);
+			path = libflac;
+			sourceTree = "<group>";
+		};
+		F77C21DE242D6C6C00FC6DDC /* module */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21DF242D6C6C00FC6DDC /* module.modulemap */,
+			);
+			path = module;
+			sourceTree = "<group>";
+		};
+		F77C21E0242D6C6C00FC6DDC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21E1242D6C6C00FC6DDC /* FLAC */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		F77C21E1242D6C6C00FC6DDC /* FLAC */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21E2242D6C6C00FC6DDC /* export.h */,
+				F77C21E3242D6C6C00FC6DDC /* stream_encoder.h */,
+				F77C21E4242D6C6C00FC6DDC /* all.h */,
+				F77C21E5242D6C6C00FC6DDC /* ordinals.h */,
+				F77C21E6242D6C6C00FC6DDC /* metadata.h */,
+				F77C21E7242D6C6C00FC6DDC /* format.h */,
+				F77C21E8242D6C6C00FC6DDC /* stream_decoder.h */,
+				F77C21E9242D6C6C00FC6DDC /* assert.h */,
+				F77C21EA242D6C6C00FC6DDC /* callback.h */,
+			);
+			path = FLAC;
+			sourceTree = "<group>";
+		};
+		F77C21EC242D6C6C00FC6DDC /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21ED242D6C6C00FC6DDC /* pkgconfig */,
+				F77C21EF242D6C6C00FC6DDC /* libFLAC.la */,
+				F77C21F0242D6C6C00FC6DDC /* libFLAC.8.dylib */,
+				F77C21F1242D6C6C00FC6DDC /* libFLAC.dylib */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		F77C21ED242D6C6C00FC6DDC /* pkgconfig */ = {
+			isa = PBXGroup;
+			children = (
+				F77C21EE242D6C6C00FC6DDC /* flac.pc */,
+			);
+			path = pkgconfig;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,7 +350,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7B39DCC2427DB54000AE701 /* PlaybackControls.xib in Resources */,
+				F77C21F5242D6C6C00FC6DDC /* libFLAC.la in Resources */,
 				F70112F324219B53002AE1EC /* Assets.xcassets in Resources */,
+				F77C21F4242D6C6C00FC6DDC /* flac.pc in Resources */,
 				F70112F624219B53002AE1EC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +364,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7C13FF1242758C00037B743 /* shim.c in Sources */,
 				F70114012422EF47002AE1EC /* AudioFile.swift in Sources */,
 				F70114F72426EA86002AE1EC /* Swime.swift in Sources */,
 				F70112F124219B52002AE1EC /* PlaylistViewController.swift in Sources */,
@@ -309,6 +372,7 @@
 				F7B39DD22427DC44000AE701 /* ToolbarController.swift in Sources */,
 				F7C13FEB2426ED470037B743 /* PlaybackOperation.swift in Sources */,
 				F7B39DD42427E0E4000AE701 /* ToolbarViewModel.swift in Sources */,
+				F77C21F3242D6C6C00FC6DDC /* shim.c in Sources */,
 				F70114042422F0BE002AE1EC /* NSButton+Combine.swift in Sources */,
 				F701130124219E97002AE1EC /* WindowController.swift in Sources */,
 				F70112EF24219B52002AE1EC /* AppDelegate.swift in Sources */,
@@ -471,7 +535,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/FLAC/libflac/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.AudioPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AudioPlayer/AudioPlayer-Bridging-Header.h";
@@ -493,7 +560,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/FLAC/libflac/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.AudioPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/AudioPlayer/AudioPlayer-Bridging-Header.h";

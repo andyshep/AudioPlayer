@@ -24,7 +24,7 @@ final class PlaybackController {
             return
         }
         
-        let operation = MP3Operation(url: url)
+        let operation = createOperation(url: url, mime: mime)
         operationQueue.addOperation(operation)
         
         activeOperation = operation
@@ -32,6 +32,17 @@ final class PlaybackController {
     
     func stop() {
         operationQueue.cancelAllOperations()
+    }
+    
+    private func createOperation(url: URL, mime: MimeType) -> PlaybackOperation {
+        switch mime.type {
+        case .mp3:
+            return MP3Operation(url: url)
+        case .flac:
+            return FLACOperation(url: url)
+        default:
+            fatalError()
+        }
     }
 }
 

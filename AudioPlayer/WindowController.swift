@@ -13,10 +13,6 @@ final class WindowController: NSWindowController {
     
     // MARK: IBOutlets
     
-    @IBOutlet private weak var addButton: NSButton!
-    @IBOutlet private weak var stopButton: NSButton!
-    @IBOutlet private weak var playbackControls: NSSegmentedControl!
-    
     @IBOutlet private weak var progressLabel: NSTextField!
     @IBOutlet private weak var progressBar: NSProgressIndicator!
     
@@ -37,37 +33,35 @@ final class WindowController: NSWindowController {
         window.titleVisibility = .hidden
         window.center()
         
-        let (viewController, playlistViewModel) = Factory.makePlaylist(controller: playbackController)
-        handle(viewModel: playlistViewModel)
+        let (viewController, viewModel) = Factory.makePlaylist(controller: playbackController)
         
-//        let (toolbar, toolbarViewModel) = Factory.makeToolbar(controller: playbackController)
-        
+        bindToToolbarEvents(viewModel: viewModel, window: window)
         window.contentViewController = viewController
-//        window.toolbar = toolbar
-        
-//        addButton.publisher
-//            .flatMapLatest { _ in
-//                NSOpenPanel
-//                    .show(window, allowedFileTypes: ["mp3", "wav", "aac", "flac"])
-//                    .eraseToAnyPublisher()
-//            }
-//            .sink { urls in
-//                self.window?.contentViewController?.representedObject = urls
-//            }
-//            .store(in: &cancellables)
     }
     
     // MARK: - Private
     
-    private func handle(viewModel: PlaylistViewModel) {
-//        stopButton.publisher
-//            .receive(subscriber: viewModel.stopEvent)
-//        
-//        playbackControls
-//            .playEvent
-//            .receive(subscriber: viewModel.playEvent)
-//        
-//        progressLabel.stringValue = "Testing"
+    private func bindToToolbarEvents(viewModel: PlaylistViewModel, window: NSWindow) {
+        toolbarController.addButton
+            .publisher
+            .flatMapLatest { _ in
+                NSOpenPanel
+                    .show(window, allowedFileTypes: ["mp3", "wav", "aac", "flac"])
+                    .eraseToAnyPublisher()
+            }
+            .sink { urls in
+                self.window?.contentViewController?.representedObject = urls
+            }
+            .store(in: &cancellables)
+        
+        toolbarController.stopButton
+            .publisher
+            .receive(subscriber: viewModel.stopEvent)
+        
+        toolbarController
+            .playbackControls
+            .playEvent
+            .receive(subscriber: viewModel.playEvent)
     }
 }
 

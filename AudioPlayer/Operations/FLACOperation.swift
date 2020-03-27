@@ -9,9 +9,13 @@
 import Cocoa
 import AudioToolbox
 import os.log
-import DrFLAC
+import CLibFLAC
 
-final class FLACOperation: AsyncOperation {
+final class FLACOperation: AsyncOperation, PlaybackOperation {
+    var position: Double = 0.0
+    
+    var duration: Double = 0.0
+    
     
     private enum Constants {
         
@@ -41,19 +45,34 @@ final class FLACOperation: AsyncOperation {
         startPlayback()
     }
     
-    private func startPlayback() {
+    func startPlayback() {
         os_log("Starting playback of file: %{PUBLIC}@", log: .default, type: .info, url.lastPathComponent)
         
-        let drflacPtr = url.withUnsafeFileSystemRepresentation { urlPtr in
-            return drflac_open_file(urlPtr, nil)
-        }
-        
-        guard let pFlac = drflacPtr else {
-            os_log("Can't open file: %{PUBLIC}@", log: .default, type: .error, url.lastPathComponent)
+        guard let decoder = FLAC__stream_decoder_new() else {
+            os_log("Can't create FLAC decoder", log: .default, type: .error)
             return
         }
         
-        print("testing")
+//        let drflacPtr = url.withUnsafeFileSystemRepresentation { urlPtr in
+//            return drflac_open_file(urlPtr, nil)
+//        }
+//
+//        guard let pFlac = drflacPtr else {
+//            os_log("Can't open file: %{PUBLIC}@", log: .default, type: .error, url.lastPathComponent)
+//            return
+//        }
+        
+//        AudioFileOpenWithCallbacks(
+//            pFlac,
+//            readCallback(inClientDataPtr:inPosition:requestCount:bufferPtr:actualCountPtr:),
+//            nil,
+//            getSizeProc(inClientData:),
+//            nil,
+//            0,
+//            &playerState.audioFile
+//        )
+        
+        print("testing: \(decoder)")
         
 //        // open the audio file
 //        CheckError(AudioFileOpenURL(url as CFURL,
@@ -61,7 +80,7 @@ final class FLACOperation: AsyncOperation {
 //                         0,
 //                         &playerState.audioFile), onFailure: "AudioFileOpenURL failed")
 //
-//        guard let audioFile = playerState.audioFile else { return }
+        guard let audioFile = playerState.audioFile else { return }
 //
 //        // get the audio data format from the file
 //        var dataFormat = AudioStreamBasicDescription()
@@ -80,57 +99,9 @@ final class FLACOperation: AsyncOperation {
 //                            0, // flags (always 0)
 //                            &audioQueueRef), // output: reference to AudioQueue object
 //            onFailure: "AudioQueueNewOutput failed")
-//
-//        // adjust buffer size to represent about a half second
-//        let (bufferByteSize, numberPacketsToRead) = CalculateBufferSize(
-//            audioFile: audioFile,
-//            audioStreamDescription: dataFormat,
-//            secondsOfAudio: 0.5
-//        )
-//
-//        playerState.numberPacketsToRead = numberPacketsToRead
-//
-//        // check if we are dealing with a VBR file. ASBD for VBR files always have
-//        // mBytesPerPacket and mFramesPerPacket as 0 since they can fluctuate at any time
-//        // if we are dealing with VBR file, we allocate memory t ohold the packet descriptions
-//        let isFormatVBR = (dataFormat.mBytesPerPacket == 0 || dataFormat.mFramesPerPacket == 0)
-//        if (isFormatVBR) {
-//            let sizeOfASPD = MemoryLayout<AudioStreamPacketDescription>.size
-//            playerState.packetDescriptions = UnsafeMutablePointer<AudioStreamPacketDescription>.allocate(capacity: sizeOfASPD * Int(playerState.numberPacketsToRead))
-//        } else {
-//            playerState.packetDescriptions = nil
-//        }
-//
-//        guard let audioQueue = audioQueueRef else { return }
-//        // get magic cookie from file and set on queue
-//        CopyEncoderCookieToQueue(audioFile: audioFile, audioQueue: audioQueue)
-//
-//        // allocate the buffers and prime the queue with some data before starting
-//        var buffers = [AudioQueueBufferRef?](repeating: nil, count: 3)
-//        playerState.isRunning = false
-//        playerState.currentPacket = 0
-//
-//        withUnsafeMutablePointer(to: &playerState) { statePtr in
-//            for index in 0..<Constants.playbackBufferCount {
-//                CheckError(AudioQueueAllocateBuffer(audioQueue,
-//                                                    bufferByteSize,
-//                                                    &buffers[index]), onFailure: "AudioQueueAllocateBuffer failed")
-//
-//                if let buffer = buffers[index] {
-//                    // Manually invoke callback to fill buffers with data
-//                    AudioQueueCallback(userData: statePtr, audioQueue: audioQueue, inputBuffer: buffer)
-//                }
-//
-//                // EOF (the entire file's contents fit in the buffers)
-//                if (statePtr.pointee.isRunning) { break }
-//            }
-//        }
-//
-//        // start the queue. This function retruns immediately and begins
-//        CheckError(AudioQueueStart(audioQueue, nil), onFailure: "AudioQueueStart failed")
     }
     
-    private func stopPlayback() {
+    func stopPlayback() {
         guard let queue = audioQueueRef else { return }
         guard let audioFile = playerState.audioFile else { return }
         
@@ -143,12 +114,44 @@ final class FLACOperation: AsyncOperation {
         AudioQueueDispose(queue, true)
         AudioFileClose(audioFile)
     }
-    
-    private func readCallback(inClientDataPtr: UnsafeMutableRawPointer,
-                              inPosition: Int64,
-                              requestCount: UInt32,
-                              bufferPtr: UnsafeMutableRawPointer,
-                              actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
+}
+
+private func readCallback(inClientDataPtr: UnsafeMutableRawPointer,
+                          inPosition: Int64,
+                          requestCount: UInt32,
+                          bufferPtr: UnsafeMutableRawPointer,
+                          actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
+//    autoreleasepool {
+//        let pFlac = inClientDataPtr.assumingMemoryBound(to: drflac.self)
+//
+////        pFlac.pointee
+//
+//        var floatBuffer = UnsafeMutablePointer<Float>.allocate(capacity: Int(requestCount))
+//        var outputBufferPtr = bufferPtr.assumingMemoryBound(to: Float.self)
+//
+////        drflac__seek_to_byte(&pFlac.pointee.bs, drflac_uint64(inPosition))
+//        let framesRead = drflac_read_pcm_frames_f32(pFlac, drflac_uint64(requestCount), floatBuffer)
+//
+//        actualCountPtr.pointee = UInt32(framesRead)
+//
+//        memcpy(bufferPtr, floatBuffer, Int(framesRead))
+//
         return 0
-    }
+//    }
+}
+
+private func writeProc(inClientDataPtr: UnsafeMutableRawPointer,
+                       inPosition: Int64,
+                       requestCount: UInt32,
+                       bufferPtr: UnsafeRawPointer,
+                       actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
+    return 0
+}
+
+private func getSizeProc(inClientData: UnsafeMutableRawPointer) -> Int64 {
+    return 0
+}
+
+private func setSizeProc(inClientData: UnsafeMutableRawPointer, size: Int64) -> OSStatus {
+    return 0
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16085" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -731,7 +731,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarRecordStopTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" id="8gY-VX-rfy">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="label"/>
+                                            <font key="font" metaFont="system" size="10"/>
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
@@ -747,23 +747,13 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <progressIndicator wantsLayer="YES" maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Y4m-sR-pJe">
-                                                    <rect key="frame" x="61" y="5" width="98" height="12"/>
+                                                    <rect key="frame" x="-3" y="-6" width="181" height="12"/>
                                                 </progressIndicator>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qul-cT-yhP">
-                                                    <rect key="frame" x="14" y="4" width="33" height="14"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Hh8-09-w69">
-                                                        <font key="font" metaFont="menu" size="11"/>
-                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Y4m-sR-pJe" firstAttribute="centerY" secondItem="tUn-NQ-C5e" secondAttribute="centerY" id="7Qb-Jk-SyJ"/>
-                                                <constraint firstItem="qul-cT-yhP" firstAttribute="centerY" secondItem="tUn-NQ-C5e" secondAttribute="centerY" id="Icg-SZ-kKd"/>
-                                                <constraint firstAttribute="trailing" secondItem="Y4m-sR-pJe" secondAttribute="trailing" constant="16" id="VbP-5l-iHp"/>
-                                                <constraint firstItem="qul-cT-yhP" firstAttribute="leading" secondItem="tUn-NQ-C5e" secondAttribute="leading" constant="16" id="quN-rT-YlI"/>
-                                                <constraint firstItem="Y4m-sR-pJe" firstAttribute="leading" secondItem="qul-cT-yhP" secondAttribute="trailing" constant="16" id="x4S-Zq-8Wm"/>
+                                                <constraint firstAttribute="bottom" secondItem="Y4m-sR-pJe" secondAttribute="bottom" constant="-6" id="g93-Xd-z6n"/>
+                                                <constraint firstAttribute="trailing" secondItem="Y4m-sR-pJe" secondAttribute="trailing" constant="-3" id="oPk-oF-i8J"/>
+                                                <constraint firstItem="Y4m-sR-pJe" firstAttribute="leading" secondItem="tUn-NQ-C5e" secondAttribute="leading" constant="-3" id="pih-Hc-kMS"/>
                                             </constraints>
                                         </view>
                                         <color key="borderColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -774,7 +764,7 @@
                             <defaultToolbarItems>
                                 <toolbarItem reference="DKs-F7-qGt"/>
                                 <toolbarItem reference="dPn-ZE-5oz"/>
-                                <toolbarItem reference="OTY-5T-i7H"/>
+                                <toolbarItem reference="NGf-Bi-SXo"/>
                                 <toolbarItem reference="alY-ko-nTa"/>
                                 <toolbarItem reference="OTY-5T-i7H"/>
                                 <toolbarItem reference="6GN-bF-dJ4"/>
@@ -785,9 +775,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="playbackControls" destination="LGw-jU-Ltc" id="VIb-kX-ZfD"/>
                         <outlet property="progressBar" destination="Y4m-sR-pJe" id="tej-zD-UUv"/>
-                        <outlet property="progressLabel" destination="qul-cT-yhP" id="cow-dB-iea"/>
                         <outlet property="toolbarController" destination="B9k-R9-cuU" id="u2Y-82-2fP"/>
                     </connections>
                 </windowController>
@@ -795,6 +783,7 @@
                 <customObject id="B9k-R9-cuU" customClass="ToolbarController" customModule="AudioPlayer" customModuleProvider="target">
                     <connections>
                         <outlet property="addButton" destination="LJ7-FX-0bf" id="4Bt-GO-89F"/>
+                        <outlet property="playbackControls" destination="LGw-jU-Ltc" id="H5K-mW-UwX"/>
                         <outlet property="stopButton" destination="F93-B5-bgC" id="MdG-5A-WzL"/>
                     </connections>
                 </customObject>

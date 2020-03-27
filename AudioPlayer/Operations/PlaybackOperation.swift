@@ -8,7 +8,11 @@
 
 import Foundation
 
-protocol PlaybackOperation {
+protocol PlaybackOperation: Operation {
+    
+    var position: Double { get }
+    var duration: Double { get }
+    
     func startPlayback()
     func stopPlayback()
 }
