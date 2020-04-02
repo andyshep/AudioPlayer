@@ -20,7 +20,7 @@ final class MP3Operation: AsyncOperation {
         static let playbackBufferCount = 3
     }
     
-    private var playerState = AudioPlayerState()
+    var playerState = AudioPlayerState()
     private var audioQueueRef: AudioQueueRef?
     
     private let url: URL
@@ -66,9 +66,10 @@ extension MP3Operation: PlaybackOperation {
         )
 
         guard let audioFile = playerState.audioFile else { return }
+        var propSize: UInt32
 
         var dataFormat = AudioStreamBasicDescription()
-        var propSize: UInt32 = UInt32(MemoryLayout.size(ofValue: dataFormat))
+        propSize = UInt32(MemoryLayout.size(ofValue: dataFormat))
         CheckError(
             AudioFileGetProperty(
                 audioFile,
@@ -94,11 +95,24 @@ extension MP3Operation: PlaybackOperation {
         willChangeValue(for: \.duration)
         _duration = Double(totalPacketCount)
         didChangeValue(for: \.duration)
+        
+        var infoDictionary = NSDictionary()
+        propSize = UInt32(MemoryLayout.size(ofValue: infoDictionary))
+        
+        CheckError(
+            AudioFileGetProperty(
+                audioFile,
+                kAudioFilePropertyInfoDictionary,
+                &propSize,
+                &infoDictionary
+            ),
+            onFailure: "couldn't get file property info dictionary"
+        )
 
         CheckError(
             AudioQueueNewOutput(
                 &dataFormat,
-                AudioQueueCallback(userData:audioQueue:inputBuffer:),
+                MP3AudioQueueCallback(userData:audioQueue:inputBuffer:),
                 &playerState, // user data
                 nil, // run loop
                 nil, // run loop mode
@@ -135,7 +149,9 @@ extension MP3Operation: PlaybackOperation {
         playerState.isRunning = false
         playerState.currentPacket = 0
 
-        withUnsafeMutablePointer(to: &playerState) { statePtr in
+        let operationPtr = Unmanaged.passUnretained(self).toOpaque()
+        
+//        withUnsafeMutablePointer(to: &playerState) { statePtr in
             for index in 0..<Constants.playbackBufferCount {
                 CheckError(
                     AudioQueueAllocateBuffer(
@@ -147,16 +163,16 @@ extension MP3Operation: PlaybackOperation {
                 )
 
                 if let buffer = buffers[index] {
-                    AudioQueueCallback(
-                        userData: statePtr,
+                    MP3AudioQueueCallback(
+                        userData: operationPtr,
                         audioQueue: audioQueue,
                         inputBuffer: buffer
                     )
                 }
 
-                if (statePtr.pointee.isRunning) { break }
+                if (playerState.isRunning) { break }
             }
-        }
+//        }
 
         CheckError(AudioQueueStart(audioQueue, nil), onFailure: "AudioQueueStart failed")
     }
@@ -173,5 +189,68 @@ extension MP3Operation: PlaybackOperation {
         
         AudioQueueDispose(queue, true)
         AudioFileClose(audioFile)
+    }
+}
+
+/// Callback function used to fill an audio buffer with content during playback
+/// - Parameters:
+///   - userData: Structure that contains state information for the audio queue
+///   - audioQueue: The audio queue needing a buffer filled
+///   - inputBuffer: An audio queue buffer to fill with data
+private func MP3AudioQueueCallback(userData: UnsafeMutableRawPointer?,
+                                   audioQueue: AudioQueueRef,
+                                   inputBuffer: AudioQueueBufferRef) {
+    guard
+        let operationPtr = userData?.assumingMemoryBound(to: Unmanaged<MP3Operation>.self)
+    else { return }
+    
+    let operation = operationPtr.pointee.takeUnretainedValue()
+    let audioPlaybackState = operation.playerState
+
+    guard
+        let audioFile = audioPlaybackState.audioFile,
+        audioPlaybackState.isRunning == false
+    else { return }
+    
+    // read audio data from file into supplied buffer
+    // Set for input buffer size. This is required to prevent -50 error code
+    var numberBytes: UInt32 = inputBuffer.pointee.mAudioDataBytesCapacity
+    var numberPackets: UInt32 = audioPlaybackState.numberPacketsToRead
+    
+    CheckError(
+        AudioFileReadPacketData(
+            audioFile,
+            false,
+            &numberBytes,
+            audioPlaybackState.packetDescriptions,
+            audioPlaybackState.currentPacket,
+            &numberPackets,
+            inputBuffer.pointee.mAudioData
+        ),
+        onFailure: "AudioFileReadPackets failed"
+    )
+    
+    // enqueue buffer into the Audio Queue
+    // if numberPackets == 0, it means we are EOF (all data has been read from file)
+    if (numberPackets > 0) {
+        inputBuffer.pointee.mAudioDataByteSize = numberBytes
+        CheckError(
+            AudioQueueEnqueueBuffer(
+                audioQueue,
+                inputBuffer,
+                (audioPlaybackState.packetDescriptions != nil) ? numberPackets : 0,
+                audioPlaybackState.packetDescriptions
+            ),
+            onFailure: "AudioQueueEnqueueBuffer failed"
+        )
+
+        audioPlaybackState.currentPacket += Int64(numberPackets)
+        debugPrint("packetPosition: \(audioPlaybackState.currentPacket)")
+    } else {
+        CheckError(
+            AudioQueueStop(audioQueue, false),
+            onFailure: "AudioQueueStop failed"
+        )
+        audioPlaybackState.isRunning = true
     }
 }

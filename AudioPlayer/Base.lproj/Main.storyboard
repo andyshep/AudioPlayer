@@ -784,6 +784,7 @@
                     <connections>
                         <outlet property="addButton" destination="LJ7-FX-0bf" id="4Bt-GO-89F"/>
                         <outlet property="playbackControls" destination="LGw-jU-Ltc" id="H5K-mW-UwX"/>
+                        <outlet property="progressWrapperView" destination="tUn-NQ-C5e" id="DY5-lJ-Gyd"/>
                         <outlet property="stopButton" destination="F93-B5-bgC" id="MdG-5A-WzL"/>
                     </connections>
                 </customObject>

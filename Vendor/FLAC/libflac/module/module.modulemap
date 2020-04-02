@@ -1,5 +1,4 @@
 module CLibFLAC [system][extern_c] {
   header "../shim.h"
-  link "libFLAC"
   export *
 }

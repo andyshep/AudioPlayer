@@ -12,10 +12,21 @@ import os.log
 import CLibFLAC
 
 final class FLACOperation: AsyncOperation, PlaybackOperation {
+    
+    final class State {
+        let operation: FLACOperation
+        let playerState: AudioPlayerState
+        let decoder: FLAC__StreamDecoder
+        
+        init(operation: FLACOperation, playerState: AudioPlayerState, decoder: FLAC__StreamDecoder) {
+            self.operation = operation
+            self.playerState = playerState
+            self.decoder = decoder
+        }
+    }
+    
     var position: Double = 0.0
-    
     var duration: Double = 0.0
-    
     
     private enum Constants {
         
@@ -25,6 +36,8 @@ final class FLACOperation: AsyncOperation, PlaybackOperation {
     
     private var playerState = AudioPlayerState()
     private var audioQueueRef: AudioQueueRef?
+    
+    private let flacCallback = FLACAudioCallback()
     
     private let url: URL
 
@@ -48,40 +61,108 @@ final class FLACOperation: AsyncOperation, PlaybackOperation {
     func startPlayback() {
         os_log("Starting playback of file: %{PUBLIC}@", log: .default, type: .info, url.lastPathComponent)
         
-        guard let decoder = FLAC__stream_decoder_new() else {
-            os_log("Can't create FLAC decoder", log: .default, type: .error)
-            return
-        }
+        CheckError(
+            AudioFileOpenURL(
+                url as CFURL,
+                AudioFilePermissions.readPermission,
+                0,
+                &playerState.audioFile
+            ),
+            onFailure: "AudioFileOpenURL failed"
+        )
         
-//        let drflacPtr = url.withUnsafeFileSystemRepresentation { urlPtr in
-//            return drflac_open_file(urlPtr, nil)
-//        }
-//
-//        guard let pFlac = drflacPtr else {
-//            os_log("Can't open file: %{PUBLIC}@", log: .default, type: .error, url.lastPathComponent)
+        guard let audioFile = playerState.audioFile else { return }
+        var propSize: UInt32
+
+        var dataFormat = AudioStreamBasicDescription()
+        propSize = UInt32(MemoryLayout.size(ofValue: dataFormat))
+        CheckError(
+            AudioFileGetProperty(
+                audioFile,
+                kAudioFilePropertyDataFormat,
+                &propSize,
+                &dataFormat
+            ),
+            onFailure: "couldn't get file's data format"
+        )
+        
+        var infoDictionary = NSDictionary()
+        propSize = UInt32(MemoryLayout.size(ofValue: infoDictionary))
+        CheckError(
+            AudioFileGetProperty(
+                audioFile,
+                kAudioFilePropertyInfoDictionary,
+                &propSize,
+                &infoDictionary
+            ),
+            onFailure: "couldn't get file property info dictionary"
+        )
+
+        
+//        guard let decoder = FLAC__stream_decoder_new() else {
+//            os_log("Can't create FLAC decoder", log: .default, type: .error)
 //            return
 //        }
-        
-//        AudioFileOpenWithCallbacks(
-//            pFlac,
-//            readCallback(inClientDataPtr:inPosition:requestCount:bufferPtr:actualCountPtr:),
-//            nil,
-//            getSizeProc(inClientData:),
-//            nil,
-//            0,
-//            &playerState.audioFile
+//
+//        guard let filePtr = fopen(url.path, "r") else {
+//            os_log("Can't open file for reading: %{PUBLIC}@", log: .default, type: .error, url.path)
+//            return
+//        }
+//
+//        let userData = FLACOperation.State(
+//            operation: self,
+//            playerState: playerState,
+//            decoder: decoder.pointee
 //        )
-        
-        print("testing: \(decoder)")
-        
-//        // open the audio file
-//        CheckError(AudioFileOpenURL(url as CFURL,
-//                         AudioFilePermissions.readPermission,
-//                         0,
-//                         &playerState.audioFile), onFailure: "AudioFileOpenURL failed")
 //
-        guard let audioFile = playerState.audioFile else { return }
+//        let userDataPtr = Unmanaged.passRetained(userData).toOpaque()
 //
+//        let result = FLAC__stream_decoder_init_stream(
+//            decoder,
+//            flacCallback.read,
+//            nil,
+//            nil,
+//            flacCallback.length,
+//            flacCallback.eof,
+//            flacCallback.write,
+//            flacCallback.metadata,
+//            flacCallback.error,
+//            userDataPtr
+//        )
+//
+//        guard result == FLAC__STREAM_DECODER_INIT_STATUS_OK else {
+//            os_log("Can't create FLAC stream", log: .default, type: .error)
+//            return
+//        }
+//
+        print("woot?")
+//
+//        CheckError(
+//            AudioFileOpenWithCallbacks(
+//                userDataPtr,
+//                readCallback(inClientDataPtr:inPosition:requestCount:bufferPtr:actualCountPtr:),
+//                nil,
+//                getSizeProc(inClientData:),
+//                nil,
+//                0,
+//                &playerState.audioFile
+//            ),
+//            onFailure: "Failed to create AudioFileID"
+//        )
+//
+////        // open the audio file
+////        CheckError(AudioFileOpenURL(url as CFURL,
+////                         AudioFilePermissions.readPermission,
+////                         0,
+////                         &playerState.audioFile), onFailure: "AudioFileOpenURL failed")
+////
+//        guard let audioFile = playerState.audioFile else {
+//            os_log("Failed to create AudioFileID", log: .default, type: .error)
+//            return
+//        }
+//
+//        FLAC__stream_decoder_process_until_end_of_metadata(decoder)
+////
 //        // get the audio data format from the file
 //        var dataFormat = AudioStreamBasicDescription()
 //        var propSize: UInt32 = UInt32(MemoryLayout.size(ofValue: dataFormat))
@@ -89,6 +170,8 @@ final class FLACOperation: AsyncOperation, PlaybackOperation {
 //                             kAudioFilePropertyDataFormat,
 //                             &propSize,
 //                             &dataFormat), onFailure: "couldn't get file's data format")
+//
+//        print("testing: \(decoder)")
 //
 //        // create a output (playback) queue
 //        CheckError(AudioQueueNewOutput(&dataFormat,
@@ -121,21 +204,13 @@ private func readCallback(inClientDataPtr: UnsafeMutableRawPointer,
                           requestCount: UInt32,
                           bufferPtr: UnsafeMutableRawPointer,
                           actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
-//    autoreleasepool {
-//        let pFlac = inClientDataPtr.assumingMemoryBound(to: drflac.self)
-//
-////        pFlac.pointee
-//
-//        var floatBuffer = UnsafeMutablePointer<Float>.allocate(capacity: Int(requestCount))
-//        var outputBufferPtr = bufferPtr.assumingMemoryBound(to: Float.self)
-//
-////        drflac__seek_to_byte(&pFlac.pointee.bs, drflac_uint64(inPosition))
-//        let framesRead = drflac_read_pcm_frames_f32(pFlac, drflac_uint64(requestCount), floatBuffer)
-//
-//        actualCountPtr.pointee = UInt32(framesRead)
-//
-//        memcpy(bufferPtr, floatBuffer, Int(framesRead))
-//
+    let userData = Unmanaged<FLACOperation.State>.fromOpaque(inClientDataPtr)
+        .takeUnretainedValue()
+    
+    let decoder = userData.decoder
+    
+    print(userData.operation)
+    
         return 0
 //    }
 }

@@ -16,7 +16,7 @@
 		F70114042422F0BE002AE1EC /* NSButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114032422F0BE002AE1EC /* NSButton+Combine.swift */; };
 		F701140624238EE8002AE1EC /* NSOpenPanel+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */; };
 		F701140C24244087002AE1EC /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140A24244087002AE1EC /* AsyncOperation.swift */; };
-		F701140F24244090002AE1EC /* AudioPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140D24244090002AE1EC /* AudioPlayback.swift */; };
+		F701140F24244090002AE1EC /* MP3AudioPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140D24244090002AE1EC /* MP3AudioPlayback.swift */; };
 		F701141024244090002AE1EC /* AudioTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701140E24244090002AE1EC /* AudioTypes.swift */; };
 		F701142824244234002AE1EC /* PlaybackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F701142724244234002AE1EC /* PlaybackController.swift */; };
 		F701142A242442BF002AE1EC /* NSArrayController+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */; };
@@ -26,6 +26,7 @@
 		F70114332426A6D3002AE1EC /* NSStoryboard+Injecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */; };
 		F70114F72426EA86002AE1EC /* Swime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114922426EA85002AE1EC /* Swime.swift */; };
 		F70114F82426EA86002AE1EC /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114932426EA85002AE1EC /* MimeType.swift */; };
+		F70EA13E2430F4E500473CA5 /* FLACAudioPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70EA13D2430F4E500473CA5 /* FLACAudioPlayback.swift */; };
 		F77C21F3242D6C6C00FC6DDC /* shim.c in Sources */ = {isa = PBXBuildFile; fileRef = F77C21EB242D6C6C00FC6DDC /* shim.c */; };
 		F77C21F4242D6C6C00FC6DDC /* flac.pc in Resources */ = {isa = PBXBuildFile; fileRef = F77C21EE242D6C6C00FC6DDC /* flac.pc */; };
 		F77C21F5242D6C6C00FC6DDC /* libFLAC.la in Resources */ = {isa = PBXBuildFile; fileRef = F77C21EF242D6C6C00FC6DDC /* libFLAC.la */; };
@@ -53,7 +54,7 @@
 		F70114032422F0BE002AE1EC /* NSButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton+Combine.swift"; sourceTree = "<group>"; };
 		F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+Combine.swift"; sourceTree = "<group>"; };
 		F701140A24244087002AE1EC /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
-		F701140D24244090002AE1EC /* AudioPlayback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayback.swift; sourceTree = "<group>"; };
+		F701140D24244090002AE1EC /* MP3AudioPlayback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MP3AudioPlayback.swift; sourceTree = "<group>"; };
 		F701140E24244090002AE1EC /* AudioTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioTypes.swift; sourceTree = "<group>"; };
 		F701142724244234002AE1EC /* PlaybackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackController.swift; sourceTree = "<group>"; };
 		F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArrayController+Combine.swift"; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 		F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSStoryboard+Injecting.swift"; sourceTree = "<group>"; };
 		F70114922426EA85002AE1EC /* Swime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swime.swift; sourceTree = "<group>"; };
 		F70114932426EA85002AE1EC /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		F70EA13D2430F4E500473CA5 /* FLACAudioPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLACAudioPlayback.swift; sourceTree = "<group>"; };
 		F77C21DF242D6C6C00FC6DDC /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		F77C21E2242D6C6C00FC6DDC /* export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = export.h; sourceTree = "<group>"; };
 		F77C21E3242D6C6C00FC6DDC /* stream_encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream_encoder.h; sourceTree = "<group>"; };
@@ -169,7 +171,8 @@
 		F701140824244062002AE1EC /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				F701140D24244090002AE1EC /* AudioPlayback.swift */,
+				F701140D24244090002AE1EC /* MP3AudioPlayback.swift */,
+				F70EA13D2430F4E500473CA5 /* FLACAudioPlayback.swift */,
 				F701140E24244090002AE1EC /* AudioTypes.swift */,
 				F70114002422EF47002AE1EC /* AudioFile.swift */,
 			);
@@ -384,7 +387,8 @@
 				F7C13FF7242778680037B743 /* FLACOperation.swift in Sources */,
 				F7C13FF5242776050037B743 /* NSSegmentedControl+Combine.swift in Sources */,
 				F701142824244234002AE1EC /* PlaybackController.swift in Sources */,
-				F701140F24244090002AE1EC /* AudioPlayback.swift in Sources */,
+				F70EA13E2430F4E500473CA5 /* FLACAudioPlayback.swift in Sources */,
+				F701140F24244090002AE1EC /* MP3AudioPlayback.swift in Sources */,
 				F701140624238EE8002AE1EC /* NSOpenPanel+Combine.swift in Sources */,
 				F701143124267802002AE1EC /* Factory.swift in Sources */,
 				F701142C24244319002AE1EC /* Publisher+Extensions.swift in Sources */,

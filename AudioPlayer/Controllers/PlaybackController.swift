@@ -15,6 +15,8 @@ final class PlaybackController {
     private let operationQueue = OperationQueue()
     private var activeOperation: PlaybackOperation?
     
+    let queue = DispatchQueue.init(label: "trst")
+    
     func play(url: URL) {
         guard let handle = try? FileHandle(forReadingFrom: url) else { return }
         let preamble = handle.readData(ofLength: 64)

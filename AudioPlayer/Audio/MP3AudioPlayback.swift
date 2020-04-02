@@ -1,5 +1,5 @@
 //
-//  AudioPlayer.swift
+//  MP3AudioPlayer.swift
 //  AudioPlayer
 //
 //  Created by Andrew Shepard on 3/10/20.
@@ -11,65 +11,6 @@ import os.log
 
 // https://github.com/derekli66/Learning-Core-Audio-Swift-SampleCode/tree/master/CH05_Player-Swift
 // https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioQueueProgrammingGuide/AQPlayback/PlayingAudio.html
-
-/// Callback function used to fill an audio buffer with content during playback
-/// - Parameters:
-///   - userData: Structure that contains state information for the audio queue
-///   - audioQueue: The audio queue needing a buffer filled
-///   - inputBuffer: An audio queue buffer to fill with data
-public func AudioQueueCallback(userData: UnsafeMutableRawPointer?,
-                               audioQueue: AudioQueueRef,
-                               inputBuffer: AudioQueueBufferRef) {
-    let userDataPtr = userData?.bindMemory(to: AudioPlayerState.self, capacity: 1)
-
-    guard
-        let audioPlaybackState = userDataPtr?.pointee,
-        let audioFile = audioPlaybackState.audioFile,
-        audioPlaybackState.isRunning == false
-    else { return }
-    
-    // read audio data from file into supplied buffer
-    // Set for input buffer size. This is required to prevent -50 error code
-    var numberBytes: UInt32 = inputBuffer.pointee.mAudioDataBytesCapacity
-    var numberPackets: UInt32 = audioPlaybackState.numberPacketsToRead
-    
-    CheckError(
-        AudioFileReadPacketData(
-            audioFile,
-            false,
-            &numberBytes,
-            audioPlaybackState.packetDescriptions,
-            audioPlaybackState.currentPacket,
-            &numberPackets,
-            inputBuffer.pointee.mAudioData
-        ),
-        onFailure: "AudioFileReadPackets failed"
-    )
-    
-    // enqueue buffer into the Audio Queue
-    // if numberPackets == 0, it means we are EOF (all data has been read from file)
-    if (numberPackets > 0) {
-        inputBuffer.pointee.mAudioDataByteSize = numberBytes
-        CheckError(
-            AudioQueueEnqueueBuffer(
-                audioQueue,
-                inputBuffer,
-                (audioPlaybackState.packetDescriptions != nil) ? numberPackets : 0,
-                audioPlaybackState.packetDescriptions
-            ),
-            onFailure: "AudioQueueEnqueueBuffer failed"
-        )
-
-        audioPlaybackState.currentPacket += Int64(numberPackets)
-        debugPrint("packetPosition: \(audioPlaybackState.currentPacket)")
-    } else {
-        CheckError(
-            AudioQueueStop(audioQueue, false),
-            onFailure: "AudioQueueStop failed"
-        )
-        audioPlaybackState.isRunning = true
-    }
-}
 
 /// Calculate buffer size for audio data
 /// - Parameters:
