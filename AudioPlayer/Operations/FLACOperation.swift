@@ -98,90 +98,64 @@ final class FLACOperation: AsyncOperation, PlaybackOperation {
             onFailure: "couldn't get file property info dictionary"
         )
 
+        // create a output (playback) queue
+        CheckError(
+            AudioQueueNewOutput(
+                &dataFormat,
+                FLACAudioQueueCallback(userData:audioQueue:inputBuffer:),
+                &playerState,
+                nil,
+                nil,
+                0,
+                &audioQueueRef
+            ),
+            onFailure: "AudioQueueNewOutput failed"
+        )
         
-//        guard let decoder = FLAC__stream_decoder_new() else {
-//            os_log("Can't create FLAC decoder", log: .default, type: .error)
-//            return
-//        }
-//
-//        guard let filePtr = fopen(url.path, "r") else {
-//            os_log("Can't open file for reading: %{PUBLIC}@", log: .default, type: .error, url.path)
-//            return
-//        }
-//
-//        let userData = FLACOperation.State(
-//            operation: self,
-//            playerState: playerState,
-//            decoder: decoder.pointee
-//        )
-//
-//        let userDataPtr = Unmanaged.passRetained(userData).toOpaque()
-//
-//        let result = FLAC__stream_decoder_init_stream(
-//            decoder,
-//            flacCallback.read,
-//            nil,
-//            nil,
-//            flacCallback.length,
-//            flacCallback.eof,
-//            flacCallback.write,
-//            flacCallback.metadata,
-//            flacCallback.error,
-//            userDataPtr
-//        )
-//
-//        guard result == FLAC__STREAM_DECODER_INIT_STATUS_OK else {
-//            os_log("Can't create FLAC stream", log: .default, type: .error)
-//            return
-//        }
-//
-        print("woot?")
-//
-//        CheckError(
-//            AudioFileOpenWithCallbacks(
-//                userDataPtr,
-//                readCallback(inClientDataPtr:inPosition:requestCount:bufferPtr:actualCountPtr:),
-//                nil,
-//                getSizeProc(inClientData:),
-//                nil,
-//                0,
-//                &playerState.audioFile
-//            ),
-//            onFailure: "Failed to create AudioFileID"
-//        )
-//
-////        // open the audio file
-////        CheckError(AudioFileOpenURL(url as CFURL,
-////                         AudioFilePermissions.readPermission,
-////                         0,
-////                         &playerState.audioFile), onFailure: "AudioFileOpenURL failed")
-////
-//        guard let audioFile = playerState.audioFile else {
-//            os_log("Failed to create AudioFileID", log: .default, type: .error)
-//            return
-//        }
-//
-//        FLAC__stream_decoder_process_until_end_of_metadata(decoder)
-////
-//        // get the audio data format from the file
-//        var dataFormat = AudioStreamBasicDescription()
-//        var propSize: UInt32 = UInt32(MemoryLayout.size(ofValue: dataFormat))
-//        CheckError(AudioFileGetProperty(audioFile,
-//                             kAudioFilePropertyDataFormat,
-//                             &propSize,
-//                             &dataFormat), onFailure: "couldn't get file's data format")
-//
-//        print("testing: \(decoder)")
-//
-//        // create a output (playback) queue
-//        CheckError(AudioQueueNewOutput(&dataFormat,
-//                            AudioQueueCallback(userData:audioQueue:inputBuffer:),
-//                            &playerState, // user data
-//                            nil, // run loop
-//                            nil, // run loop mode
-//                            0, // flags (always 0)
-//                            &audioQueueRef), // output: reference to AudioQueue object
-//            onFailure: "AudioQueueNewOutput failed")
+        // adjust buffer size to represent about a half second
+        let (bufferByteSize, numberPacketsToRead) = FLACCalculateBufferSize(
+            audioFile: audioFile,
+            audioStreamDescription: dataFormat,
+            secondsOfAudio: 0.5
+        )
+
+        playerState.numberPacketsToRead = numberPacketsToRead
+
+        let sizeOfASPD = MemoryLayout<AudioStreamPacketDescription>.size
+        let capacity = sizeOfASPD * Int(playerState.numberPacketsToRead)
+        playerState.packetDescriptions = UnsafeMutablePointer<AudioStreamPacketDescription>
+            .allocate(capacity: capacity)
+
+        guard let audioQueue = audioQueueRef else { return }
+
+        var buffers = [AudioQueueBufferRef?](repeating: nil, count: 3)
+        playerState.isRunning = false
+        playerState.currentPacket = 0
+        
+        withUnsafeMutablePointer(to: &playerState) { statePtr in
+            for index in 0..<Constants.playbackBufferCount {
+                CheckError(
+                    AudioQueueAllocateBuffer(
+                        audioQueue,
+                        bufferByteSize,
+                        &buffers[index]
+                    ),
+                    onFailure: "AudioQueueAllocateBuffer failed"
+                )
+
+                if let buffer = buffers[index] {
+                    FLACAudioQueueCallback(
+                        userData: statePtr,
+                        audioQueue: audioQueue,
+                        inputBuffer: buffer
+                    )
+                }
+                
+//                if (playerState.isRunning) { break }
+            }
+        }
+
+        CheckError(AudioQueueStart(audioQueue, nil), onFailure: "AudioQueueStart failed")
     }
     
     func stopPlayback() {
@@ -199,34 +173,82 @@ final class FLACOperation: AsyncOperation, PlaybackOperation {
     }
 }
 
-private func readCallback(inClientDataPtr: UnsafeMutableRawPointer,
-                          inPosition: Int64,
-                          requestCount: UInt32,
-                          bufferPtr: UnsafeMutableRawPointer,
-                          actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
-    let userData = Unmanaged<FLACOperation.State>.fromOpaque(inClientDataPtr)
-        .takeUnretainedValue()
+/// Callback function used to fill an audio buffer with content during playback
+/// - Parameters:
+///   - userData: Structure that contains state information for the audio queue
+///   - audioQueue: The audio queue needing a buffer filled
+///   - inputBuffer: An audio queue buffer to fill with data
+private func FLACAudioQueueCallback(userData: UnsafeMutableRawPointer?,
+                                    audioQueue: AudioQueueRef,
+                                    inputBuffer: AudioQueueBufferRef) {
+    let userDataPtr = userData?.bindMemory(to: AudioPlayerState.self, capacity: 1)
     
-    let decoder = userData.decoder
+    guard
+        let audioPlaybackState = userDataPtr?.pointee,
+        let audioFile = audioPlaybackState.audioFile,
+        audioPlaybackState.isRunning == false
+    else { return }
     
-    print(userData.operation)
+    // read audio data from file into supplied buffer
+    // Set for input buffer size. This is required to prevent -50 error code
+    var numberBytes: UInt32 = inputBuffer.pointee.mAudioDataBytesCapacity
+    var numberPackets: UInt32 = audioPlaybackState.numberPacketsToRead
     
-        return 0
-//    }
+    CheckError(
+        AudioFileReadPacketData(
+            audioFile,
+            true,
+            &numberBytes,
+            audioPlaybackState.packetDescriptions,
+            audioPlaybackState.currentPacket,
+            &numberPackets,
+            inputBuffer.pointee.mAudioData
+        ),
+        onFailure: "AudioFileReadPackets failed"
+    )
+    
+    // enqueue buffer into the Audio Queue
+    // if numberPackets == 0, it means we are EOF (all data has been read from file)
+    if (numberPackets > 0) {
+        inputBuffer.pointee.mAudioDataByteSize = numberBytes
+        CheckError(
+            AudioQueueEnqueueBuffer(
+                audioQueue,
+                inputBuffer,
+                (audioPlaybackState.packetDescriptions != nil) ? numberPackets : 0,
+                audioPlaybackState.packetDescriptions
+            ),
+            onFailure: "AudioQueueEnqueueBuffer failed"
+        )
+
+        audioPlaybackState.currentPacket += Int64(numberPackets)
+        debugPrint("packetPosition: \(audioPlaybackState.currentPacket)")
+    } else {
+        CheckError(
+            AudioQueueStop(audioQueue, false),
+            onFailure: "AudioQueueStop failed"
+        )
+        audioPlaybackState.isRunning = true
+    }
 }
 
-private func writeProc(inClientDataPtr: UnsafeMutableRawPointer,
-                       inPosition: Int64,
-                       requestCount: UInt32,
-                       bufferPtr: UnsafeRawPointer,
-                       actualCountPtr: UnsafeMutablePointer<UInt32>) -> OSStatus {
-    return 0
-}
-
-private func getSizeProc(inClientData: UnsafeMutableRawPointer) -> Int64 {
-    return 0
-}
-
-private func setSizeProc(inClientData: UnsafeMutableRawPointer, size: Int64) -> OSStatus {
-    return 0
+public func FLACCalculateBufferSize(audioFile: AudioFileID,
+                                    audioStreamDescription: AudioStreamBasicDescription,
+                                    secondsOfAudio: Float64) -> BufferSize {
+    var packetSizeUpperBound: UInt32 = 0
+    var propSize = UInt32(MemoryLayout.size(ofValue: packetSizeUpperBound))
+    CheckError(
+        AudioFileGetProperty(
+            audioFile,
+            kAudioFilePropertyPacketSizeUpperBound,
+            &propSize,
+            &packetSizeUpperBound
+        ),
+        onFailure: "Couldn't get file's max packet size"
+    )
+    
+    let numberOfPackets: UInt32 = 2
+    let bufferSize: UInt32 = packetSizeUpperBound * numberOfPackets
+    
+    return (size: bufferSize, numberOfPackets: numberOfPackets)
 }
