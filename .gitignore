@@ -5,16 +5,3 @@
 
 *.xcworkspace/xcuserdata/*
 *.xcworkspace
-
-Vendor/FLAC/.gitignore
-
-Vendor/Swime/.gitignore
-Vendor/Swime/.travis.yml
-Vendor/Swime/LICENSE
-Vendor/Swime/Makefile
-Vendor/Swime/Package.resolved
-Vendor/Swime/Package.swift
-Vendor/Swime/Swime.podspec
-Vendor/Swime/Swime.xcodeproj
-Vendor/Swime/Tests/*
-Vendor/Swime/readme.md
