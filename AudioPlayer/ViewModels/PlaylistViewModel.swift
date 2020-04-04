@@ -54,10 +54,10 @@ final class PlaylistViewModel: NSObject {
             .map { [unowned self] in
                 let index = self.arrayController.selectionIndex
                 let file = self.audioFiles[index]
-                return file.path
+                return file
             }
-            .sink { [weak self] url in
-                self?.controller.play(url: url)
+            .sink { [weak self] file in
+                self?.controller.play(file: file)
             }
             .store(in: &cancellables)
         

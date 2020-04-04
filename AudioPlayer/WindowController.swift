@@ -35,6 +35,8 @@ final class WindowController: NSWindowController {
         
         let (viewController, viewModel) = Factory.makePlaylist(controller: playbackController)
         
+        toolbarController.viewModel = ToolbarViewModel(controller: playbackController)
+        
         bindToToolbarEvents(viewModel: viewModel, window: window)
         window.contentViewController = viewController
     }

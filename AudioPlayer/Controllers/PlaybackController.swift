@@ -10,15 +10,21 @@ import Foundation
 import Combine
 import os.log
 
-final class PlaybackController {
+final class PlaybackController: NSObject {
     
     private let operationQueue = OperationQueue()
     private let audioEngine = AudioEngine()
     
     let queue = DispatchQueue.init(label: "trst")
     
-    func play(url: URL) {
-        audioEngine.startPlayback(of: url)
+    @objc var title: String = ""
+    
+    func play(file: AudioFile) {
+        audioEngine.startPlayback(of: file.path)
+        
+        willChangeValue(for: \.title)
+        title = file.title
+        didChangeValue(for: \.title)
     }
     
     func stop() {

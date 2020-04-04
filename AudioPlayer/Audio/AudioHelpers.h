@@ -16,8 +16,8 @@ struct MyAudioPlaybackState {
     AudioFileID _Nullable audioFileID;
     AudioStreamPacketDescription* _Nullable packetDescriptions;
     
-    SInt64 current_packet;
-    UInt32 packets_to_read;
+    SInt64 currentPacket;
+    UInt32 packetsToRead;
     
     bool isDone;
 };
@@ -29,6 +29,12 @@ void CheckError(OSStatus error, const char * _Nonnull operation);
 
 void CopyEncoderCookieToQueue(AudioFileID __nonnull audioFileID,
                               AudioQueueRef __nonnull queue);
+
+void CalculateBufferSize(AudioFileID _Nonnull inAudioFile,
+                         AudioStreamBasicDescription inDesc,
+                         Float64 inSeconds,
+                         UInt32 * _Nonnull outBufferSize,
+                         UInt32 * _Nonnull outNumPackets);
 
 void MyAudioQueueReadProc(void * __nullable userData,
                           AudioQueueRef __nonnull audioQueue,

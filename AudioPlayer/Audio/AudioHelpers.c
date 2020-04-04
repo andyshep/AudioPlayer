@@ -8,6 +8,8 @@
 
 #include "AudioHelpers.h"
 
+#include <os/log.h>
+
 void CheckError(OSStatus error, const char * _Nonnull operation) {
     if (error == noErr) return;
     
@@ -55,6 +57,56 @@ void CopyEncoderCookieToQueue(AudioFileID __nonnull audioFileID,
     }
 }
 
+void CalculateBufferSize(AudioFileID _Nonnull inAudioFile,
+                         AudioStreamBasicDescription inDesc,
+                         Float64 inSeconds,
+                         UInt32 * _Nonnull outBufferSize,
+                         UInt32 * _Nonnull outNumPackets) {
+    UInt32 packetSizeUpperBound;
+    UInt32 propSize = sizeof(packetSizeUpperBound);
+    CheckError(
+        AudioFileGetProperty(
+            inAudioFile,
+            kAudioFilePropertyPacketSizeUpperBound,
+            &propSize,
+            &packetSizeUpperBound
+        ),
+        "couldn't get file's max packet size"
+    );
+    
+    if (inDesc.mFormatID == kAudioFormatFLAC) {
+        os_log_info(OS_LOG_DEFAULT, "%s: found FLAC audio file", __FUNCTION__);
+        
+        UInt32 numberOfPackets = 2;
+        UInt32 bufferSize = packetSizeUpperBound * numberOfPackets;
+        
+        *outBufferSize = bufferSize;
+        *outNumPackets = numberOfPackets;
+    } else if (inDesc.mFormatID == kAudioFormatMPEGLayer3) {
+        os_log_info(OS_LOG_DEFAULT, "%s: found MP3 audio file", __FUNCTION__);
+        
+        static const int maxBufferSize = 0x10000;
+        static const int minBufferSize = 0x4000;
+        
+        if (inDesc.mFramesPerPacket) {
+            Float64 numPacketsForTime = inDesc.mSampleRate / inDesc.mFramesPerPacket * inSeconds;
+            *outBufferSize = numPacketsForTime * packetSizeUpperBound;
+        } else {
+            *outBufferSize = maxBufferSize > packetSizeUpperBound ? maxBufferSize : packetSizeUpperBound;
+        }
+        
+        if (*outBufferSize > maxBufferSize && *outBufferSize > packetSizeUpperBound) {
+            *outBufferSize = maxBufferSize;
+        } else {
+            if (*outBufferSize < minBufferSize) {
+                *outBufferSize = minBufferSize;
+            }
+        }
+        
+        *outNumPackets = *outBufferSize / packetSizeUpperBound;
+    }
+}
+
 void MyAudioQueueReadProc(void* __nullable userData,
                           AudioQueueRef __nonnull audioQueue,
                           AudioQueueBufferRef __nonnull buffer) {
@@ -63,7 +115,7 @@ void MyAudioQueueReadProc(void* __nullable userData,
     if (playerState->isDone) return;
     
     UInt32 numberBytes = buffer->mAudioDataBytesCapacity;
-    UInt32 numberPackets = playerState->packets_to_read;
+    UInt32 numberPackets = playerState->packetsToRead;
     
     CheckError(
         AudioFileReadPacketData(
@@ -71,7 +123,7 @@ void MyAudioQueueReadProc(void* __nullable userData,
             true,
             &numberBytes,
             playerState->packetDescriptions,
-            playerState->current_packet,
+            playerState->currentPacket,
             &numberPackets,
             buffer->mAudioData
         ),
@@ -90,7 +142,7 @@ void MyAudioQueueReadProc(void* __nullable userData,
             "AudioQueueEnqueueBuffer failed"
         );
         
-        playerState->current_packet += numberPackets;
+        playerState->currentPacket += numberPackets;
     } else {
         CheckError(
             AudioQueueStop(audioQueue, false),
