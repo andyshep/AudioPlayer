@@ -23,6 +23,7 @@
 		F70EAA952438B2B300473CA5 /* AudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F70EAA942438B2B300473CA5 /* AudioEngine.m */; };
 		F70EAA982438DAAE00473CA5 /* AudioHelpers.c in Sources */ = {isa = PBXBuildFile; fileRef = F70EAA972438DAAE00473CA5 /* AudioHelpers.c */; };
 		F70EAA992438DD2600473CA5 /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114002422EF47002AE1EC /* AudioFile.swift */; };
+		F72DB504243A50D400D3ECBD /* NSTableView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */; };
 		F7B39DCC2427DB54000AE701 /* PlaybackControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */; };
 		F7B39DD22427DC44000AE701 /* ToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD12427DC44000AE701 /* ToolbarController.swift */; };
 		F7B39DD42427E0E4000AE701 /* ToolbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */; };
@@ -51,6 +52,7 @@
 		F70EAA942438B2B300473CA5 /* AudioEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioEngine.m; sourceTree = "<group>"; };
 		F70EAA962438B46F00473CA5 /* AudioHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioHelpers.h; sourceTree = "<group>"; };
 		F70EAA972438DAAE00473CA5 /* AudioHelpers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AudioHelpers.c; sourceTree = "<group>"; };
+		F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTableView+Combine.swift"; sourceTree = "<group>"; };
 		F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaybackControls.xib; sourceTree = "<group>"; };
 		F7B39DD12427DC44000AE701 /* ToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarController.swift; sourceTree = "<group>"; };
 		F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewModel.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				F7C13FF4242776050037B743 /* NSSegmentedControl+Combine.swift */,
 				F701142B24244319002AE1EC /* Publisher+Extensions.swift */,
 				F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */,
+				F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				F7B39DD22427DC44000AE701 /* ToolbarController.swift in Sources */,
 				F7B39DD42427E0E4000AE701 /* ToolbarViewModel.swift in Sources */,
 				F70114042422F0BE002AE1EC /* NSButton+Combine.swift in Sources */,
+				F72DB504243A50D400D3ECBD /* NSTableView+Combine.swift in Sources */,
 				F701130124219E97002AE1EC /* WindowController.swift in Sources */,
 				F70112EF24219B52002AE1EC /* AppDelegate.swift in Sources */,
 				F701142A242442BF002AE1EC /* NSArrayController+Combine.swift in Sources */,

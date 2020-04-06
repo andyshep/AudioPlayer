@@ -10,7 +10,7 @@
 
 #include <os/log.h>
 
-void CheckError(OSStatus error, const char * _Nonnull operation) {
+void CheckError(OSStatus error, const char * __nonnull operation) {
     if (error == noErr) return;
     
     char str[20];
@@ -22,7 +22,7 @@ void CheckError(OSStatus error, const char * _Nonnull operation) {
         sprintf(str, "%d", (int)error);
     }
     
-    fprintf(stderr, "Error: %s (%s)\n", operation, str);
+    os_log_error(OS_LOG_DEFAULT, "Error: %s (%s)", operation, str);
 }
 
 void CopyEncoderCookieToQueue(AudioFileID __nonnull audioFileID,
@@ -57,11 +57,11 @@ void CopyEncoderCookieToQueue(AudioFileID __nonnull audioFileID,
     }
 }
 
-void CalculateBufferSize(AudioFileID _Nonnull inAudioFile,
+void CalculateBufferSize(AudioFileID __nonnull inAudioFile,
                          AudioStreamBasicDescription inDesc,
                          Float64 inSeconds,
-                         UInt32 * _Nonnull outBufferSize,
-                         UInt32 * _Nonnull outNumPackets) {
+                         UInt32 * __nonnull outBufferSize,
+                         UInt32 * __nonnull outNumPackets) {
     UInt32 packetSizeUpperBound;
     UInt32 propSize = sizeof(packetSizeUpperBound);
     CheckError(
@@ -71,7 +71,7 @@ void CalculateBufferSize(AudioFileID _Nonnull inAudioFile,
             &propSize,
             &packetSizeUpperBound
         ),
-        "couldn't get file's max packet size"
+        "Could not determine packet size upper bound"
     );
     
     if (inDesc.mFormatID == kAudioFormatFLAC) {
@@ -113,6 +113,9 @@ void MyAudioQueueReadProc(void* __nullable userData,
     struct MyAudioPlaybackState *playerState = (struct MyAudioPlaybackState *)userData;
     
     if (playerState->isDone) return;
+    
+    double progress = (float_t)playerState->currentPacket / (float_t)playerState->totalPacketCount;
+    playerState->progressCallback(progress, playerState->userData);
     
     UInt32 numberBytes = buffer->mAudioDataBytesCapacity;
     UInt32 numberPackets = playerState->packetsToRead;

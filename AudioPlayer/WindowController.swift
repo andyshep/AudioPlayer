@@ -16,7 +16,7 @@ final class WindowController: NSWindowController {
     @IBOutlet private weak var progressLabel: NSTextField!
     @IBOutlet private weak var progressBar: NSProgressIndicator!
     
-    @IBOutlet private weak var toolbarController: ToolbarController!
+    @IBOutlet private var toolbarController: ToolbarController!
     
     // MARK: Private (properties)
     

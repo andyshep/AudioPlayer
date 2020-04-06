@@ -18,7 +18,11 @@
 
 @property (nonatomic, assign) AudioQueueRef audioQueueRef;
 
+@property (atomic, assign, readwrite, getter=isPlaying) BOOL playing;
+@property (atomic, strong, readwrite) NSNumber *progress;
+
 - (void)openAndPlayFileAtURL:(NSURL *)url;
+- (void)updateProgress:(double)progress;
 
 @end
 
@@ -27,6 +31,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.audioQueue = dispatch_queue_create("playback", NULL);
+        self.progress = [NSNumber numberWithDouble:0.0];
     }
     
     return self;
@@ -34,6 +39,10 @@
 
 - (void)startPlaybackOfURL:(NSURL *)url {
     os_log_info(OS_LOG_DEFAULT, "%s: %s", __FUNCTION__, url.fileSystemRepresentation);
+    
+    if (self.isPlaying) {
+        [self stopPlayback];
+    }
     
     dispatch_async([self audioQueue], ^{
         [self openAndPlayFileAtURL:url];
@@ -48,7 +57,7 @@
         
         CheckError(
             AudioQueueStop(self->_audioQueueRef, true),
-            "AudioQueueStop failed"
+            "Failed to stop audio queue"
         );
         
         AudioQueueDispose(self->_audioQueueRef, true);
@@ -58,6 +67,14 @@
 
 // MARK: - Private
 
+- (void)updateProgress:(double)progress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self willChangeValueForKey:@"progress"];
+        self.progress = [NSNumber numberWithDouble:progress];
+        [self didChangeValueForKey:@"progress"];
+    });
+}
+
 - (void)openAndPlayFileAtURL:(NSURL *)url {
     CheckError(
         AudioFileOpenURL(
@@ -66,7 +83,7 @@
             0,  // file hint
             &_playbackState.audioFileID
         ),
-        "could not open audio file"
+        "Could not open audio file"
     );
     
     if (_playbackState.audioFileID == NULL) {
@@ -82,7 +99,30 @@
             &propSize,
             &dataFormat
         ),
-        "couldn't get file's data format"
+        "Could not determine audio file data format"
+    );
+    
+    NSDictionary *infoDictionary;
+    propSize = sizeof(infoDictionary);
+    CheckError(
+        AudioFileGetProperty(
+            _playbackState.audioFileID,
+            kAudioFilePropertyInfoDictionary,
+            &propSize,
+            &infoDictionary
+        ),
+        "Could not find audio file info dictionary"
+    );
+    
+    propSize = sizeof(_playbackState.totalPacketCount);
+    CheckError(
+        AudioFileGetProperty(
+            _playbackState.audioFileID,
+            kAudioFilePropertyAudioDataPacketCount,
+            &propSize,
+            &_playbackState.totalPacketCount
+        ),
+        "Could not find total packet count"
     );
     
     CheckError(
@@ -95,7 +135,7 @@
             0,      // flags, always zero
             &_audioQueueRef
         ),
-        "couldn't create audio queue"
+        "Could not create audio queue"
     );
     
     UInt32 bufferByteSize;
@@ -117,6 +157,9 @@
     _playbackState.isDone = false;
     _playbackState.currentPacket = 0;
     
+    _playbackState.progressCallback = MyProgressCallback;
+    _playbackState.userData = (__bridge void *)self;
+    
     for (UInt32 i = 0; i < kNumberPlaybackBuffers; ++i) {
         CheckError(
             AudioQueueAllocateBuffer(
@@ -124,7 +167,7 @@
                 bufferByteSize,
                 &buffers[i]
             ),
-            "AudioQueueAllocateBuffer failed"
+            "Failed to allocate audio buffer"
         );
         
         MyAudioQueueReadProc(&_playbackState, _audioQueueRef, buffers[i]);
@@ -134,11 +177,26 @@
     
     CheckError(
         AudioQueueStart(_audioQueueRef, NULL),
-        "AudioQueueStart failed"
+        "Failed to start audio queue"
     );
+    
+    self.playing = YES;
+    
+    [self willChangeValueForKey:@"songTitle"];
+    _songTitle = [infoDictionary objectForKey:@"title"];
+    [self didChangeValueForKey:@"songTitle"];
 }
 
 /// Number of audio buffers to during playback 
 static const UInt32 kNumberPlaybackBuffers = 3;
 
 @end
+
+static void MyProgressCallback(const double progress, void* __nullable userData) {
+//    os_log_info(OS_LOG_DEFAULT, "%s: %f", __FUNCTION__, progress);
+    
+    AudioEngine *audioEngine = (__bridge AudioEngine *)userData;
+    if (audioEngine == nil) return;
+    
+    [audioEngine updateProgress:progress];
+}

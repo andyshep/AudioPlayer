@@ -26,49 +26,52 @@ final class AudioFile: NSObject {
         
         super.init()
         
-        setMetadataProperties(for: url)
-        calculatePlaybackDuration(for: url)
+        readAudioInformation()
     }
     
-    private func setMetadataProperties(for url: URL) {
-        let asset = AVAsset(url: path)
-        asset.availableMetadataFormats.forEach { format in
-            asset.metadata(forFormat: format).forEach { metadata in
-                guard let commonKey = metadata.commonKey else { return }
-                
-                switch commonKey {
-                case .commonKeyArtist:
-                    self.artist = metadata.stringValue ?? ""
-                case .commonKeyTitle:
-                    self.title = metadata.stringValue ?? ""
-                case .commonKeyAlbumName:
-                    self.album = metadata.stringValue ?? ""
-                default:
-                    break
-                }
-            }
+    private func readAudioInformation() {
+        var audioFileID: AudioFileID?
+        
+        CheckError(
+            AudioFileOpenURL(path as CFURL, .readPermission, 0, &audioFileID),
+            "Could not open audio file"
+        )
+        
+        if let audioFileID = audioFileID {
+            setMetadataProperties(from: audioFileID)
+            calculatePlaybackDuration(from: audioFileID)
+            
+            AudioFileClose(audioFileID)
         }
     }
     
-    private func calculatePlaybackDuration(for url: URL) {
+    private func setMetadataProperties(from audioFileID: AudioFileID) {
+        var infoDictionary = NSDictionary()
+        var propSize = UInt32(MemoryLayout.size(ofValue: infoDictionary))
         
-        // https://stackoverflow.com/a/43890305
+        AudioFileGetProperty(
+            audioFileID,
+            kAudioFilePropertyInfoDictionary,
+            &propSize,
+            &infoDictionary
+        )
         
-        var audioFileID: AudioFileID?
-        AudioFileOpenURL(url as CFURL, .readPermission, 0, &audioFileID)
-        
+        self.album = infoDictionary["album"] as? String ?? ""
+        self.artist = infoDictionary["artist"] as? String ?? ""
+        self.title = infoDictionary["title"] as? String ?? ""
+    }
+    
+    private func calculatePlaybackDuration(from audioFileID: AudioFileID) {
         var outDataSize: Float64 = 0
         var propSize = UInt32(MemoryLayout.size(ofValue: outDataSize))
         
-        if let audioFileID = audioFileID {
-            AudioFileGetProperty(
-                audioFileID,
-                kAudioFilePropertyEstimatedDuration,
-                &propSize,
-                &outDataSize
-            )
-            AudioFileClose(audioFileID)
-        }
+        AudioFileGetProperty(
+            audioFileID,
+            kAudioFilePropertyEstimatedDuration,
+            &propSize,
+            &outDataSize
+        )
+        AudioFileClose(audioFileID)
         
         let interval = TimeInterval(Int(outDataSize))
         let formatter = DateComponentsFormatter.shortStyle

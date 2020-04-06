@@ -12,22 +12,46 @@ import os.log
 
 final class PlaybackController: NSObject {
     
+    var audioInfoPublisher: AnyPublisher<String?, Never> {
+        return audioEngine.audioInfoPublisher
+            .eraseToAnyPublisher()
+    }
+    
+    var progressPublisher: AnyPublisher<NSNumber, Never> {
+        return audioEngine.progressPublisher
+            .eraseToAnyPublisher()
+    }
+    
     private let operationQueue = OperationQueue()
     private let audioEngine = AudioEngine()
-    
-    let queue = DispatchQueue.init(label: "trst")
     
     @objc var title: String = ""
     
     func play(file: AudioFile) {
         audioEngine.startPlayback(of: file.path)
-        
-        willChangeValue(for: \.title)
-        title = file.title
-        didChangeValue(for: \.title)
     }
     
     func stop() {
         audioEngine.stopPlayback()
+    }
+}
+
+private extension AudioEngine {
+    var audioInfoPublisher: AnyPublisher<String?, Never> {
+        return KeyValueObservingPublisher(
+            object: self,
+            keyPath: \AudioEngine.songTitle,
+            options: .new
+        )
+        .eraseToAnyPublisher()
+    }
+    
+    var progressPublisher: AnyPublisher<NSNumber, Never> {
+        return KeyValueObservingPublisher(
+            object: self,
+            keyPath: \AudioEngine.progress,
+            options: NSKeyValueObservingOptions.init(arrayLiteral: [.initial, .new])
+        )
+        .eraseToAnyPublisher()
     }
 }

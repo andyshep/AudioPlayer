@@ -23,6 +23,18 @@ final class PlaylistViewModel: NSObject {
     }
     private let stopEventSubject = PassthroughSubject<Void, Never>()
     
+    var countPublisher: AnyPublisher<Int, Never> {
+        return KeyValueObservingPublisher(
+            object: arrayController,
+            keyPath: \NSArrayController.arrangedObjects,
+            options: []
+        )
+        .map { result -> Int in
+            return (result as? [AudioFile])?.count ?? 0
+        }
+        .eraseToAnyPublisher()
+    }
+    
     // MARK: Output
     
     lazy var arrayController: NSArrayController = {
@@ -44,7 +56,7 @@ final class PlaylistViewModel: NSObject {
     
     func updatePlaylist(with urls: [URL]) {
         willChangeValue(for: \.audioFiles)
-        audioFiles = urls.map { AudioFile(path: $0) }
+        audioFiles.append(contentsOf: urls.map { AudioFile(path: $0) })
         didChangeValue(for: \.audioFiles)
     }
     
