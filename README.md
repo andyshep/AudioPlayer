@@ -8,6 +8,10 @@ Simple audio player for experiementing with lower level Core Audio APIs. For exa
 * Swift 5
 * macOS 10.15
 
+## Screenshots
+
+![](https://i.imgur.com/6x80qDr.png)
+
 ## Credits
 
 This app builds on example code from [_Learning Core Audio_](https://www.oreilly.com/library/view/learning-core-audio/9780321636973/).
