@@ -22,7 +22,6 @@ final class PlaybackController: NSObject {
             .eraseToAnyPublisher()
     }
     
-    private let operationQueue = OperationQueue()
     private let audioEngine = AudioEngine()
     
     @objc var title: String = ""

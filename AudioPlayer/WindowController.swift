@@ -60,18 +60,27 @@ final class WindowController: NSWindowController {
             .publisher
             .receive(subscriber: viewModel.stopEvent)
         
-        toolbarController
-            .playbackControls
-            .playEvent
-            .receive(subscriber: viewModel.playEvent)
-    }
-}
-
-private extension NSSegmentedControl {
-    var playEvent: AnyPublisher<Void, Never> {
-        return publisher
-            .filter { $0 == 1 }
-            .map { _ in () }
+        let controlsPublisher = toolbarController.playbackControls
+            .publisher
+            .share()
             .eraseToAnyPublisher()
+        
+        controlsPublisher
+            .filter { $0 == 1 }
+            .toVoid()
+            .eraseToAnyPublisher()
+            .receive(subscriber: viewModel.playEvent)
+        
+        controlsPublisher
+            .filter { $0 == 0 }
+            .toVoid()
+            .eraseToAnyPublisher()
+            .receive(subscriber: viewModel.trackBackEvent)
+        
+        controlsPublisher
+            .filter { $0 == 2 }
+            .toVoid()
+            .eraseToAnyPublisher()
+            .receive(subscriber: viewModel.trackForwardEvent)
     }
 }

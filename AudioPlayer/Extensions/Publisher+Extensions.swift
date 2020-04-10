@@ -22,6 +22,10 @@ extension Publisher {
             next(output)
         })
     }
+    
+    func toVoid() -> Publishers.Map<Self, Void> {
+        return map { _ in () }
+    }
 }
 
 extension Publisher {

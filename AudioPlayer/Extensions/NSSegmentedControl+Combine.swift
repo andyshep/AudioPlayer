@@ -32,6 +32,7 @@ final class NSSegmentedControlSubscription<SubscriberType: Subscriber>: NSObject
     // MARK: Actions
     
     @objc func handleSegmentIndex(_ sender: Any) {
+        print(control.selectedSegment)
         _ = subscriber?.receive(control.selectedSegment)
     }
 }
