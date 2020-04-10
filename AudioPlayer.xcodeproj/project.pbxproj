@@ -24,7 +24,6 @@
 		F70EAA982438DAAE00473CA5 /* AudioHelpers.c in Sources */ = {isa = PBXBuildFile; fileRef = F70EAA972438DAAE00473CA5 /* AudioHelpers.c */; };
 		F70EAA992438DD2600473CA5 /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70114002422EF47002AE1EC /* AudioFile.swift */; };
 		F72DB504243A50D400D3ECBD /* NSTableView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */; };
-		F7B39DCC2427DB54000AE701 /* PlaybackControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */; };
 		F7B39DD22427DC44000AE701 /* ToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD12427DC44000AE701 /* ToolbarController.swift */; };
 		F7B39DD42427E0E4000AE701 /* ToolbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */; };
 		F7C13FF5242776050037B743 /* NSSegmentedControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C13FF4242776050037B743 /* NSSegmentedControl+Combine.swift */; };
@@ -53,7 +52,6 @@
 		F70EAA962438B46F00473CA5 /* AudioHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioHelpers.h; sourceTree = "<group>"; };
 		F70EAA972438DAAE00473CA5 /* AudioHelpers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AudioHelpers.c; sourceTree = "<group>"; };
 		F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTableView+Combine.swift"; sourceTree = "<group>"; };
-		F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaybackControls.xib; sourceTree = "<group>"; };
 		F7B39DD12427DC44000AE701 /* ToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarController.swift; sourceTree = "<group>"; };
 		F7B39DD32427E0E4000AE701 /* ToolbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewModel.swift; sourceTree = "<group>"; };
 		F7C13FF3242759270037B743 /* AudioPlayer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -91,18 +89,13 @@
 			isa = PBXGroup;
 			children = (
 				F70112EE24219B52002AE1EC /* AppDelegate.swift */,
-				F701130024219E97002AE1EC /* WindowController.swift */,
-				F70112F024219B52002AE1EC /* PlaylistViewController.swift */,
-				F7B39DD12427DC44000AE701 /* ToolbarController.swift */,
-				F701142D24264750002AE1EC /* ViewModels */,
 				F701142624244219002AE1EC /* Controllers */,
+				F701142D24264750002AE1EC /* ViewModels */,
 				F701140824244062002AE1EC /* Audio */,
 				F70114022422F0AC002AE1EC /* Extensions */,
-				F701143024267802002AE1EC /* Factory.swift */,
 				F7C13FF3242759270037B743 /* AudioPlayer-Bridging-Header.h */,
 				F70112F224219B53002AE1EC /* Assets.xcassets */,
 				F70112F424219B53002AE1EC /* Main.storyboard */,
-				F7B39DCB2427DB54000AE701 /* PlaybackControls.xib */,
 				F70112F724219B53002AE1EC /* Info.plist */,
 				F70112F824219B53002AE1EC /* AudioPlayer.entitlements */,
 			);
@@ -112,13 +105,13 @@
 		F70114022422F0AC002AE1EC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */,
 				F70114032422F0BE002AE1EC /* NSButton+Combine.swift */,
 				F701140524238EE8002AE1EC /* NSOpenPanel+Combine.swift */,
-				F7011429242442BF002AE1EC /* NSArrayController+Combine.swift */,
 				F7C13FF4242776050037B743 /* NSSegmentedControl+Combine.swift */,
-				F701142B24244319002AE1EC /* Publisher+Extensions.swift */,
 				F70114322426A6D3002AE1EC /* NSStoryboard+Injecting.swift */,
 				F72DB503243A50D400D3ECBD /* NSTableView+Combine.swift */,
+				F701142B24244319002AE1EC /* Publisher+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -138,7 +131,11 @@
 		F701142624244219002AE1EC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F701130024219E97002AE1EC /* WindowController.swift */,
+				F70112F024219B52002AE1EC /* PlaylistViewController.swift */,
 				F701142724244234002AE1EC /* PlaybackController.swift */,
+				F7B39DD12427DC44000AE701 /* ToolbarController.swift */,
+				F701143024267802002AE1EC /* Factory.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -211,7 +208,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7B39DCC2427DB54000AE701 /* PlaybackControls.xib in Resources */,
 				F70112F324219B53002AE1EC /* Assets.xcassets in Resources */,
 				F70112F624219B53002AE1EC /* Main.storyboard in Resources */,
 			);
